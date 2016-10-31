@@ -34,7 +34,7 @@ import android.widget.TextView;
 
 public class CollectionDemoActivity extends FragmentActivity {
 
-    /**
+    /**...
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments representing
      * each object in a collection. We use a {@link android.support.v4.app.FragmentStatePagerAdapter}
      * derivative, which will destroy and re-create fragments as needed, saving and restoring their
