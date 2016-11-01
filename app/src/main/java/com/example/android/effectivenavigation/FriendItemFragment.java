@@ -69,7 +69,7 @@ public class FriendItemFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyFriendItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyFriendItemRecyclerViewAdapter(FriendItem.FriendItem_List, mListener));
         }
         return view;
     }
@@ -104,6 +104,6 @@ public class FriendItemFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(FriendItem item);
     }
 }
