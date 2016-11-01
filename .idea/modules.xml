@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/EffectiveNavigation.iml" filepath="$PROJECT_DIR$/.idea/EffectiveNavigation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HabbitBuddy.iml" filepath="$PROJECT_DIR$/HabbitBuddy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>

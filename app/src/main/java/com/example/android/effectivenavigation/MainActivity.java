@@ -122,23 +122,49 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     // a launchpad into the other demonstrations in this example application.
                     return new LaunchpadSectionFragment();
 
-                default:
-                    // The other sections of the app are dummy placeholders.
-                    Fragment fragment = new DummySectionFragment();
+                case 1:
+                    Fragment cFragment = new CalendarFragment();
                     Bundle args = new Bundle();
                     args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
-                    fragment.setArguments(args);
-                    return fragment;
+                    cFragment.setArguments(args);
+                    return cFragment;
+                case 2:
+                    Fragment fFragment = new FriendItemFragment();
+                    return fFragment;
+
+
+                case 3:
+                    Fragment pFragment = new PerformanceSummaryFragment();
+
+                    return pFragment;
+                default:
+
+                    // The other sections of the app are dummy placeholders.
+                    Fragment dfragment = new DummySectionFragment();
+                    Bundle dargs = new Bundle();
+                    dargs.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
+                    dfragment.setArguments(dargs);
+                    return dfragment;
             }
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
+            switch(position){
+                case 0:
+                    return "Buddy and Me";
+                case 1:
+                    return "Habit Calendar";
+                case 2:
+                    return "Message a Buddy";
+                case 3:
+                    return "Habit Summary";
+            }
             return "Section " + (position + 1);
         }
     }
