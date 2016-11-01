@@ -1,6 +1,4 @@
-package com.example.android.effectivenavigation;
-
-import com.example.android.effectivenavigation.dummy.DummyContent;
+package com.example.android.effectivenavigation.messenger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +34,8 @@ public class FriendItem {
     }
 
 
-
-
-
-
+    public String getPhoneString() {
+        String phoneString = String.valueOf(this.areaNumber) + String.valueOf(this.phoneNumber);
+        return phoneString;
+    }
 }

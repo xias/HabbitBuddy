@@ -1,4 +1,4 @@
-package com.example.android.effectivenavigation;
+package com.example.android.effectivenavigation.messenger;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,11 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.android.effectivenavigation.dummy.DummyContent;
-import com.example.android.effectivenavigation.dummy.DummyContent.DummyItem;
-
-import java.util.List;
+import com.example.android.effectivenavigation.R;
 
 /**
  * A fragment representing a list of Items.
@@ -78,12 +76,12 @@ public class FriendItemFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnListFragmentInteractionListener) {
-//            mListener = (OnListFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnListFragmentInteractionListener");
-//        }
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListener = (OnListFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnListFragmentInteractionListener");
+        }
     }
 
     @Override
@@ -105,5 +103,6 @@ public class FriendItemFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(FriendItem item);
+
     }
 }

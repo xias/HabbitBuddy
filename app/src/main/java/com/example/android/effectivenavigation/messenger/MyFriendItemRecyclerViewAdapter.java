@@ -1,18 +1,19 @@
-package com.example.android.effectivenavigation;
+package com.example.android.effectivenavigation.messenger;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.android.effectivenavigation.FriendItemFragment.OnListFragmentInteractionListener;
-import com.example.android.effectivenavigation.dummy.DummyContent.DummyItem;
+import com.example.android.effectivenavigation.MainActivity;
+import com.example.android.effectivenavigation.R;
+import com.example.android.effectivenavigation.messenger.FriendItemFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
@@ -34,7 +35,7 @@ public class MyFriendItemRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
         holder.mFirstView.setText(mValues.get(position).fName);
         holder.mLastView.setText(mValues.get(position).lName);
@@ -44,8 +45,10 @@ public class MyFriendItemRecyclerViewAdapter extends RecyclerView.Adapter<MyFrie
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (null != mListener) {
                     //TODO new intent to text message
+
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
