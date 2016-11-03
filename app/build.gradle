@@ -7,6 +7,7 @@ android {
         applicationId "com.example.android.effectivenavigation"
         minSdkVersion 14
         targetSdkVersion 14
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -20,4 +21,5 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:25.0.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.android.support:support-vector-drawable:23.4.0'
 }
