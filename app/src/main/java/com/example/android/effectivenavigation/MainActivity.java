@@ -38,6 +38,8 @@ import com.example.android.effectivenavigation.messenger.FriendItem;
 import com.example.android.effectivenavigation.messenger.FriendItemFragment;
 import com.example.android.effectivenavigation.schedule.CalendarFragment;
 import com.example.android.effectivenavigation.summary.PerformanceSummaryFragment;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, FriendItemFragment.OnListFragmentInteractionListener {
 
@@ -91,6 +93,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+
+        myRef.setValue("Hello, World!");
 
         // Create the adapter that will return a fragment for each of the three primary sections
         // of the app.

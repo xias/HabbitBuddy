@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "559614334599",
+    "firebase_url": "https://habitbuddy-9bca7.firebaseio.com",
+    "project_id": "habitbuddy-9bca7",
+    "storage_bucket": "habitbuddy-9bca7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559614334599:android:db9aa56dbde0bb68",
+        "android_client_info": {
+          "package_name": "com.example.android.effectivenavigation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "559614334599-3b4nlioresp1nluf10nsshm8bj1kogjq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.effectivenavigation",
+            "certificate_hash": "956459D34BA2D7D9D148E52A265B5A6BB8D41FFD"
+          }
+        },
+        {
+          "client_id": "559614334599-u9tv0pp7pgnkupak5aaov33ohje494h9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACmvp-cUwxzQ2IJWvXQstsMMpQvsjiGDE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "559614334599-u9tv0pp7pgnkupak5aaov33ohje494h9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
