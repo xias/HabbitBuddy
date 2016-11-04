@@ -54,18 +54,13 @@
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
 
-        <string name="questionnaire1">How motivated are you to form or sustain a healthy habit? </string>
-        <string name="questionnaire2">How often would you like to engage in your healthy habit </string>
-        <string name="questionnaire3">How often would you like to communicate with your buddy?</string>
-        <string name="questionnaire4">How likely are you to provide support and social praise to your buddy? </string>
-        <string name="questionnaire5">How much do you think forming or sustaining a healthy habit will satisfy you?  </string>
-        <string name="questionnaire6">How much do you think having a habit buddy will help you reach your goal?  </string>
-        <string name="questionnaire7">How much are you committed to HabitBuddy? </string>
-
-
-
-
-
+    <string name="questionnaire1">How motivated are you to form or sustain a healthy habit? </string>
+    <string name="questionnaire2">How often would you like to engage in your healthy habit </string>
+    <string name="questionnaire3">How often would you like to communicate with your buddy?</string>
+    <string name="questionnaire4">How likely are you to provide support and social praise to your buddy? </string>
+    <string name="questionnaire5">How much do you think forming or sustaining a healthy habit will satisfy you?  </string>
+    <string name="questionnaire6">How much do you think having a habit buddy will help you reach your goal?  </string>
+    <string name="questionnaire7">How much are you committed to HabitBuddy? </string>
 
 
     <string name="pref_title_sync_frequency">Sync frequency</string>
@@ -111,4 +106,19 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_sign_up">Sign Up</string>
 </resources>
