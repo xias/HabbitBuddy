@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <ImageView
+        android:src="@android:drawable/btn_star_big_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/remIcon"
+        android:layout_weight="1" />
+
+    <TextView
+        android:text="This is a reminder, recommandation, or tips"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reminderTextview"
+        android:layout_weight="1"
+        android:layout_margin="10dp" />
+</LinearLayout>

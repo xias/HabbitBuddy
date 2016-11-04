@@ -38,6 +38,7 @@ import android.widget.Toast;
 import com.example.android.effectivenavigation.messenger.FriendItem;
 import com.example.android.effectivenavigation.messenger.FriendItemFragment;
 import com.example.android.effectivenavigation.schedule.CalendarFragment;
+import com.example.android.effectivenavigation.summary.BuddyCenterFragment;
 import com.example.android.effectivenavigation.summary.PerformanceSummaryFragment;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -178,8 +179,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 case 0:
                     // The first section of the app is the most interesting -- it offers
                     // a launchpad into the other demonstrations in this example application.
-                    return new LaunchpadSectionFragment();
-
+//                    return new LaunchpadSectionFragment();
+                    return new BuddyCenterFragment();
                 case 1:
 //                    Fragment cFragment = new CalendarFragment();
 //                    Bundle args = new Bundle();
