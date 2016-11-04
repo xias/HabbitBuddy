@@ -37,18 +37,17 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:text="TextView"
+                    android:text="Username"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView4"
                     android:layout_weight="30" />
 
                 <AutoCompleteTextView
-                    android:id="@+id/email"
+                    android:id="@+id/sign_up"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
+                    android:hint="Enter your username"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:layout_weight="70" />

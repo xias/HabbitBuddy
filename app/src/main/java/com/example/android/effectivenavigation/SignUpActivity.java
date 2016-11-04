@@ -55,13 +55,14 @@ public class SignUpActivity extends Activity implements LoaderCallbacks<Cursor> 
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (AutoCompleteTextView) findViewById(R.id.sign_up);
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -82,7 +83,12 @@ public class SignUpActivity extends Activity implements LoaderCallbacks<Cursor> 
             public void onClick(View view) {
                 attemptLogin();
                 Intent intent = new Intent(SignUpActivity.this,SurveyActivity.class);
+                name = mEmailView.getEditableText().toString();
+                Bundle mBundle = new Bundle();
+                mBundle.putString("pos",name);
+                intent.putExtras(mBundle);
                 startActivity(intent);
+                finish();
             }
         });
 

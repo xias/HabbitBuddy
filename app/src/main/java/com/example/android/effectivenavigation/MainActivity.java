@@ -28,6 +28,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,8 +39,19 @@ import com.example.android.effectivenavigation.messenger.FriendItem;
 import com.example.android.effectivenavigation.messenger.FriendItemFragment;
 import com.example.android.effectivenavigation.schedule.CalendarFragment;
 import com.example.android.effectivenavigation.summary.PerformanceSummaryFragment;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, FriendItemFragment.OnListFragmentInteractionListener {
 
@@ -55,18 +67,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * The {@link ViewPager} that will display the three primary sections of the app, one at a
      * time.
      */
+    public static FirebaseDatabase database;
+    private static Firebase mRef;
+
     ViewPager mViewPager;
 
-    public void onListFragmentInteraction(FriendItem friendItem){
+    public void onListFragmentInteraction(FriendItem friendItem) {
         final String number = friendItem.getPhoneString();
 
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                switch (which){
+                switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms",number,null)));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null)));
 
                         break;
 
@@ -82,23 +97,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 .setNegativeButton("No", dialogClickListener).show();
     }
 
-
-
-
-
-
-
-
-
+    public static String name;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        name= getIntent().getStringExtra("pos");
+//
+//       database = FirebaseDatabase.getInstance();
+//
+//        DatabaseReference databaseReference = database.getReference("habitbuddy-9bca7");
 
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
-        myRef.setValue("Hello, World!");
 
         // Create the adapter that will return a fragment for each of the three primary sections
         // of the app.
@@ -173,11 +181,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     return new LaunchpadSectionFragment();
 
                 case 1:
-                    Fragment cFragment = new CalendarFragment();
-                    Bundle args = new Bundle();
-                    args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
-                    cFragment.setArguments(args);
-                    return cFragment;
+//                    Fragment cFragment = new CalendarFragment();
+//                    Bundle args = new Bundle();
+//                    args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
+//                    cFragment.setArguments(args);
+//                    return cFragment;
                 case 2:
                     Fragment fFragment = new FriendItemFragment();
                     return fFragment;
@@ -189,7 +197,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     return pFragment;
                 default:
 
-                    // The other sections of the app are dummy placeholders.
+//                    // The other sections of the app are dummy placeholders.
                     Fragment dfragment = new DummySectionFragment();
                     Bundle dargs = new Bundle();
                     dargs.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
@@ -205,7 +213,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch(position){
+            switch (position) {
                 case 0:
                     return "Buddy and Me";
                 case 1:
@@ -226,7 +234,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_section_launchpad, container, false);
 
             // Demonstration of a collection-browsing activity.
@@ -255,26 +263,109 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             startActivity(externalActivityIntent);
                         }
                     });
+            rootView.findViewById(R.id.buttonPair).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/message");
+                    mRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+                        //addValueEventListener
+                        @Override
+                        public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                            final String temp = dataSnapshot.getValue(String.class);
+                            final String[] names = temp.split(" ");
+                            Log.v("N", Arrays.toString(names));
+                            final int[] myARR = new int[7];
+                            final int[][] compare = new int[names.length][7];
+                            for (int i = 0; i < names.length; i++) {
 
+
+                                Firebase nFirebase = new Firebase("https://habitbuddy-9bca7.firebaseio.com/" + names[i]);
+                                Log.v("names",names[i]+"ff"+name);
+                                final int finalI = i;
+                                final int finalI1 = i;
+                                nFirebase.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        String tempV = dataSnapshot.getValue(String.class);
+                                        String[] cal = tempV.split(" ");
+                                        int[] results = new int[cal.length-1];
+                                        
+                                        for (int j = 1; j < cal.length; j++) {
+                                            try {
+                                                results[j-1] = Integer.parseInt(cal[j]);
+
+
+                                                    compare[finalI1][j-1]=results[j-1];
+
+
+
+                                            } catch (NumberFormatException nfe) {
+                                                //NOTE: write something here if you need to recover from formatting errors
+                                            };
+                                        }
+
+                                        if (names[finalI].equals(name)){
+                                            for (int p = 0;p<7;p++){
+                                                myARR[p]=compare[finalI][p];
+                                                Log.v("Test", String.valueOf(compare[finalI][p]));
+                                            }
+                                        }
+
+
+                                        Log.v("DIO",Arrays.toString(myARR)+"***"+Arrays.toString(compare));
+                                    }
+
+                                    @Override
+                                    public void onCancelled(FirebaseError firebaseError) {
+
+                                    }
+                                });
+//                                mRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/" + names[i]);
+//                                mRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+//                                    //addValueEventListener
+//                                    @Override
+//                                    public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+//                                        String temp = dataSnapshot.getValue(String.class);
+//                                        Log.v("Find",temp);
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(FirebaseError firebaseError) {
+//
+//                                    }
+//                                });
+                            }
+                        }
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+
+                    });
+                }
+            });
             return rootView;
         }
     }
+        /**
+         * A dummy fragment representing a section of the app, but that simply displays dummy text.
+         */
+        public static class DummySectionFragment extends Fragment {
 
-    /**
-     * A dummy fragment representing a section of the app, but that simply displays dummy text.
-     */
-    public static class DummySectionFragment extends Fragment {
+            public static final String ARG_SECTION_NUMBER = "section_number";
 
-        public static final String ARG_SECTION_NUMBER = "section_number";
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_dummy, container, false);
-            Bundle args = getArguments();
-            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
-                    getString(R.string.dummy_section_text, args.getInt(ARG_SECTION_NUMBER)));
-            return rootView;
+            @Override
+            public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                     Bundle savedInstanceState) {
+                View rootView = inflater.inflate(R.layout.fragment_section_dummy, container, false);
+                Bundle args = getArguments();
+                ((TextView) rootView.findViewById(android.R.id.text1)).setText(
+                        getString(R.string.dummy_section_text, args.getInt(ARG_SECTION_NUMBER)));
+                return rootView;
+            }
         }
-    }
+
+
 }

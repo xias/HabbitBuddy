@@ -135,7 +135,7 @@
                 android:id="@+id/seekBar8" />
 
             <Button
-                android:text="Match me!"
+                android:text="Complete!"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"

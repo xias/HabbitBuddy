@@ -55,7 +55,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+    private String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +82,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             public void onClick(View view) {
                 attemptLogin();
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                name = mEmailView.getEditableText().toString();
+                Bundle mBundle = new Bundle();
+                mBundle.putString("pos",name);
+                intent.putExtras(mBundle);
                 startActivity(intent);
             }
         });
