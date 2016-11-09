@@ -90,7 +90,7 @@ public class FriendItemFragment extends Fragment {
                             for (int i = 0; i < names.length; i++) {
 
 
-                                Firebase nFirebase = new Firebase("https://habitbuddy-9bca7.firebaseio.com/" + names[i]);
+                                Firebase nFirebase = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users" + names[i]);
                                 Log.v("names", names[i] + "ff" + name);
                                 final int finalI = i;
                                 final int finalI1 = i;
