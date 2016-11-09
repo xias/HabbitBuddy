@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="com.example.android.effectivenavigation.FriendItemFragment"
+    android:id="@+id/linearlay"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context="com.example.android.effectivenavigation.messenger.FriendItemFragment"
-    tools:listitem="@layout/fragment_frienditem" />
+    android:layout_marginRight="16dp">
+
+    <Button
+        android:text="Match!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonPair" />
+    <TextView
+        android:text="Match your buddy"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:id="@+id/match_view"
+        android:textSize="24sp"
+        android:layout_marginLeft="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Bob"
+            android:id="@+id/fn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_weight="30"
+            />
+
+        <TextView
+            android:text="Marley"
+            android:id="@+id/ln"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_weight="30"
+            />
+
+        <TextView
+            android:text="416 3529392"
+            android:id="@+id/phoneNum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:layout_weight="40" />
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/buddyList"
+        android:name="com.example.android.effectivenavigation.FriendItemFragment"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context="com.example.android.effectivenavigation.messenger.FriendItemFragment"
+        tools:listitem="@layout/fragment_frienditem" />
+
+
+</LinearLayout>

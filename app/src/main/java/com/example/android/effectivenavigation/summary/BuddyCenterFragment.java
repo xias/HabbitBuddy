@@ -69,17 +69,19 @@ public class BuddyCenterFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if(WallEntryItem.wallEntryItemList.isEmpty()) {
+            new WallEntryItem(BitmapFactory.decodeResource(getResources(), R.drawable.scenery),
+                    "I went to a great park today. Let me know if anyone wants to join next time", 30, "Rick","Queens park!");
+            new WallEntryItem(BitmapFactory.decodeResource(getResources(), R.drawable.comp),
+                    "I did not do anything today", 5, "Lazy dude","zzz");
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //TODO initiate dummy wall post content
-        new WallEntryItem(BitmapFactory.decodeResource(getResources(), R.drawable.scenery),
-                "I went to a great park today. Let me know if anyone wants to join next time", 30, "Rick");
-        new WallEntryItem(BitmapFactory.decodeResource(getResources(), R.drawable.comp),
-                "I did not do anything today", 5, "Lazy dude");
+
 
         List<String> tasks = new ArrayList<>(3);
         tasks.add("Walk for 2 miles. ");
@@ -91,6 +93,8 @@ public class BuddyCenterFragment extends Fragment {
         rems.add("Bring water when you walk. ");
         rems.add("Remember to update your friends after done walking!");
         rems.add("Bring your umbrella if it's windy and cloudy outside. ");
+        rems.add("Maybe you can walk to get grocery today? ");
+
 
 
 

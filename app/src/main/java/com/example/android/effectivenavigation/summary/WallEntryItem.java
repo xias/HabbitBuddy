@@ -32,11 +32,23 @@ public class WallEntryItem {
         return name;
     }
 
+    public WallEntryItem(Bitmap pic, String comment, int progress, String name, String ti) {
+        this.pic = pic;
+        this.comment = comment;
+        this.progress = progress;
+        this.name = name +": "+ti;
+        wallEntryItemList.add(this);
+    }
+
     public WallEntryItem(Bitmap pic, String comment, int progress, String name) {
         this.pic = pic;
         this.comment = comment;
         this.progress = progress;
-        this.name = name;
+        this.name = name +": ";
         wallEntryItemList.add(this);
     }
+
+
+
+
 }

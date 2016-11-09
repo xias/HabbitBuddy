@@ -69,7 +69,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * time.
      */
     public static FirebaseDatabase database;
-    private static Firebase mRef;
+    private static BuddyCenterFragment buddyCenterFragment;
+    private static Fragment cFragment=null;
+    private static Fragment fFragment=null;
+    private static Fragment pFragment=null;
+    private static Fragment dFragment=null;
+
+
 
     ViewPager mViewPager;
 
@@ -103,7 +109,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         name= getIntent().getStringExtra("pos");
-//
 //       database = FirebaseDatabase.getInstance();
 //
 //        DatabaseReference databaseReference = database.getReference("habitbuddy-9bca7");
@@ -168,9 +173,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * sections of the app.
      */
     public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+        public static FragmentManager fragmentManager;
 
         public AppSectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+            fragmentManager=fm;
         }
 
         @Override
@@ -180,30 +187,51 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     // The first section of the app is the most interesting -- it offers
                     // a launchpad into the other demonstrations in this example application.
 //                    return new LaunchpadSectionFragment();
-                    return new BuddyCenterFragment();
+                    if(buddyCenterFragment == null) {
+                        buddyCenterFragment = new BuddyCenterFragment();
+                    }
+                        return buddyCenterFragment;
                 case 1:
-//                    Fragment cFragment = new CalendarFragment();
-//                    Bundle args = new Bundle();
-//                    args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
-//                    cFragment.setArguments(args);
-//                    return cFragment;
+                    if(cFragment == null) {
+                        cFragment = new CalendarFragment();
+
+                        Bundle args = new Bundle();
+                        args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
+                        cFragment.setArguments(args);
+                    }
+//                    fragmentManager.popBackStack();
+
+                    return cFragment;
                 case 2:
-                    Fragment fFragment = new FriendItemFragment();
+                    if(fFragment == null) {
+                        fFragment = new FriendItemFragment();
+                    }
+//                    fragmentManager.popBackStack();
+
                     return fFragment;
 
 
                 case 3:
-                    Fragment pFragment = new PerformanceSummaryFragment();
+                    if(pFragment == null) {
+
+                        pFragment = new PerformanceSummaryFragment();
+                    }
+//                    fragmentManager.popBackStack();
 
                     return pFragment;
                 default:
 
 //                    // The other sections of the app are dummy placeholders.
-                    Fragment dfragment = new DummySectionFragment();
-                    Bundle dargs = new Bundle();
-                    dargs.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
-                    dfragment.setArguments(dargs);
-                    return dfragment;
+                    if(dFragment == null) {
+
+                        dFragment = new DummySectionFragment();
+                        Bundle dargs = new Bundle();
+                        dargs.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
+                        dFragment.setArguments(dargs);
+                    }
+//                    fragmentManager.popBackStack();
+
+                    return dFragment;
             }
         }
 
@@ -216,7 +244,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Buddy and Me";
+                    return "Habit Center";
                 case 1:
                     return "Habit Calendar";
                 case 2:
@@ -264,89 +292,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             startActivity(externalActivityIntent);
                         }
                     });
-            rootView.findViewById(R.id.buttonPair).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/message");
-                    mRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
-                        //addValueEventListener
-                        @Override
-                        public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
-                            final String temp = dataSnapshot.getValue(String.class);
-                            final String[] names = temp.split(" ");
-                            Log.v("N", Arrays.toString(names));
-                            final int[] myARR = new int[7];
-                            final int[][] compare = new int[names.length][7];
-                            for (int i = 0; i < names.length; i++) {
 
 
-                                Firebase nFirebase = new Firebase("https://habitbuddy-9bca7.firebaseio.com/" + names[i]);
-                                Log.v("names",names[i]+"ff"+name);
-                                final int finalI = i;
-                                final int finalI1 = i;
-                                nFirebase.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                        String tempV = dataSnapshot.getValue(String.class);
-                                        String[] cal = tempV.split(" ");
-                                        int[] results = new int[cal.length-1];
-                                        
-                                        for (int j = 1; j < cal.length; j++) {
-                                            try {
-                                                results[j-1] = Integer.parseInt(cal[j]);
-
-
-                                                    compare[finalI1][j-1]=results[j-1];
-
-
-
-                                            } catch (NumberFormatException nfe) {
-                                                //NOTE: write something here if you need to recover from formatting errors
-                                            };
-                                        }
-
-                                        if (names[finalI].equals(name)){
-                                            for (int p = 0;p<7;p++){
-                                                myARR[p]=compare[finalI][p];
-                                                Log.v("Test", String.valueOf(compare[finalI][p]));
-                                            }
-                                        }
-
-
-                                        Log.v("DIO",Arrays.toString(myARR)+"***"+Arrays.toString(compare));
-                                    }
-
-                                    @Override
-                                    public void onCancelled(FirebaseError firebaseError) {
-
-                                    }
-                                });
-//                                mRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/" + names[i]);
-//                                mRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
-//                                    //addValueEventListener
-//                                    @Override
-//                                    public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
-//                                        String temp = dataSnapshot.getValue(String.class);
-//                                        Log.v("Find",temp);
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(FirebaseError firebaseError) {
-//
-//                                    }
-//                                });
-                            }
-                        }
-                        @Override
-                        public void onCancelled(FirebaseError firebaseError) {
-
-                        }
-
-                    });
-                }
-            });
             return rootView;
         }
     }

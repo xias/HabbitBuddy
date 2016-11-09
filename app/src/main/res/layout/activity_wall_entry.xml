@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:minHeight="39dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:id="@+id/addLinear">
 
         <LinearLayout
@@ -26,16 +26,16 @@
             android:gravity="bottom">
 
             <Button
-                android:text="Done"
+                android:text="Post"
                 android:layout_weight="20"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/enterButton1"
+                android:id="@+id/postButton"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp" />
 
             <Button
-                android:text="Add"
+                android:text="Add Picture"
                 android:layout_weight="20"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/addLinear"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginBottom="12dp">
 
         <LinearLayout
@@ -77,7 +77,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:hint="Please Enter Movie Title"
+                    android:hint="The title to your post"
                     android:textSize="16dp"
                     android:textColor="#000000"
                     android:layout_marginTop="5dp"
@@ -95,7 +95,7 @@
                 android:weightSum="1">
 
                 <TextView
-                    android:text="Year: "
+                    android:text="Activity: "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
@@ -125,7 +125,7 @@
                 android:layout_height="match_parent"></LinearLayout>
 
             <TextView
-                android:text="Lead Actor/Actress: "
+                android:text="Your thoughts: "
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
@@ -137,15 +137,16 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:hint="Please Enter Actor/Actress Name"
+                android:hint="Share your thoughts..."
                 android:textSize="16dp"
                 android:textColor="#000000"
                 android:ems="10"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:id="@+id/actorText" />
+                android:id="@+id/actorText"
+                android:layout_height="160dp"
+                android:gravity="top|center_vertical" />
 
         </LinearLayout>
     </ScrollView>

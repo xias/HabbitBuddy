@@ -45,7 +45,7 @@ public class CalendarFragment extends Fragment {
         calendarView = (CalendarView) mView.findViewById(R.id.calView);
         taskView = (ListView) mView.findViewById(R.id.dailyTaskView);
         calendarView.setDate(System.currentTimeMillis());
-        Toast.makeText(getActivity(), String.valueOf(System.currentTimeMillis()), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), String.valueOf(System.currentTimeMillis()), Toast.LENGTH_SHORT).show();
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
