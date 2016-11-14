@@ -106,9 +106,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     public static String name;
     public void onCreate(Bundle savedInstanceState) {
+
+        //TODO go to login activity if not logged in
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         name= getIntent().getStringExtra("pos");
+        FBHandler.getThisUser("gorett");
+        FBHandler.getFriendlist("gorett");
 //       database = FirebaseDatabase.getInstance();
 //
 //        DatabaseReference databaseReference = database.getReference("habitbuddy-9bca7");

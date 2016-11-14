@@ -2,6 +2,7 @@ package com.example.android.effectivenavigation.messenger;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,13 +19,19 @@ public class UserObject {
     private String diary;
     private String schedule;
 
+    public static List<UserObject> UserList = new ArrayList<>();
+    public static UserObject thisUser;
+
+
     public UserObject(String buddy, String diary, List<String> friendlist, String intake, String name, String schedule) {
         this.buddy = buddy;
         this.diary = diary;
         this.friendlist = friendlist;
+        //TODO take friendlist string and split to List
         this.intake = intake;
         this.name = name;
         this.schedule = schedule;
+        UserList.add(this);
     }
 
     public UserObject() {
@@ -34,6 +41,8 @@ public class UserObject {
         this.intake = null;
         this.name = null;
         this.schedule = null;
+        UserList.add(this);
+
     }
 
 

@@ -65,9 +65,9 @@ public class SurveyActivity extends Activity {
                 mRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
                     @Override
                     public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
-                        Log.v("NEWWWW", dataSnapshot.getValue(String.class));
+//                        Log.v("NEWWWW", dataSnapshot.getValue(String.class));
                         newS = dataSnapshot.getValue(String.class);
-                        Log.v("NEWWWW","JKFJLDFJLKK");
+//                        Log.v("NEWWWW","JKFJLDFJLKK");
                         newS = newS + " "+name;
 
 
