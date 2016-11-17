@@ -39,7 +39,7 @@
                 android:layout_weight="20"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/enterButton2"
+                android:id="@+id/addPicButton"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp" />
         </LinearLayout>
