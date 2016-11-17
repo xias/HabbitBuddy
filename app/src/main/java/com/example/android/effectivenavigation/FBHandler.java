@@ -70,7 +70,7 @@ public class FBHandler {
         String diary = getValueFromSnap(d, "diary");
         String intake = getValueFromSnap(d, "intake");
         String schedule = getValueFromSnap(d, "calendar_id");
-        String[] fr = friendlist.split(" ");
+        String[] fr = friendlist.split("\\|");
         List<String> friendArray =  new ArrayList<String>(Arrays.asList(fr));
 
         return new UserObject(buddy, diary, friendArray, intake, name, schedule);
@@ -82,8 +82,8 @@ public class FBHandler {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                thisUser = getUserFromNameString(dataSnapshot, name1);
-                Log.d("FIRE_this user result", thisUser.getBuddy()+thisUser.getIntake());
+//                thisUser = getUserFromNameString(dataSnapshot, name1);
+//                Log.d("FIRE_this user result", thisUser.getBuddy()+thisUser.getIntake());
 
             }
 
@@ -101,12 +101,12 @@ public class FBHandler {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.d("FIRE", "gettign friendlist");
-                    for(String f:thisUser.getFriendlist()){
-                        DataSnapshot newData = dataSnapshot.child(f);
-                        getUserFromNameString(newData, f);
-                        Log.d("FIRE", f);
+//                    for(String f:thisUser.getFriendlist()){
+//                        DataSnapshot newData = dataSnapshot.child(f);
+//                        getUserFromNameString(newData, f);
+//                        Log.d("FIRE", f);
 
-                    }
+//                    }
 
                 }
 
