@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +19,23 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.effectivenavigation.Start.StartActivity;
+import com.example.android.effectivenavigation.adapter.BuddiesArrayAdapter;
+import com.example.android.effectivenavigation.FBHandler;
 import com.example.android.effectivenavigation.R;
-import com.example.android.effectivenavigation.messenger.FriendItem;
+import com.example.android.effectivenavigation.adapter.ProfileAdapter;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.ui.FirebaseListAdapter;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import static com.example.android.effectivenavigation.MainActivity.name;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -110,19 +116,77 @@ public class BuddyCenterFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_buddy_center, container, false);
 
+        name= getActivity().getIntent().getStringExtra("pos");
+        ListView list=(ListView)v.findViewById(R.id.buddies);
+        FBHandler.GetBuddiesImages(getActivity(),list,name);
+
+
+//        ArrayList<String> list = new ArrayList<String>();
+//        list.add("item1");
+//        list.add("item2");
+//
+//        //instantiate custom adapter
+//        BuddiesArrayAdapter adapter = new BuddiesArrayAdapter(list, getActivity());
+//
+//        //handle listview and assign adapter
+//        ListView listView = (ListView)v.findViewById(R.id.buddies);
+//        listView.setAdapter(adapter);
 
         task = (ListView) v.findViewById(R.id.recentTaskList);
+
+        Calendar c = Calendar.getInstance();
+//        SimpleDateFormat sdf = new SimpleDateFormat("EEE  MMM d, ''yy");
+        SimpleDateFormat month = new SimpleDateFormat("MMM");
+        SimpleDateFormat date = new SimpleDateFormat("dd");
+//        String strDate = sdf.format(c.getTime());
+        String strDate = date.format(c.getTime());
+        String strMonth = month.format(c.getTime());
+        TextView monthView = (TextView)v.findViewById(R.id.textMon);
+        TextView dateView = (TextView)v.findViewById(R.id.textDate);
+        Button startButton = (Button) v.findViewById(R.id.startNewButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),StartActivity.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putString("pos",name);
+                intent.putExtras(mBundle);
+                startActivity(intent);
+                //Log.v("Buddycente",name);
+                getActivity().finish();
+            }
+        });
+        monthView.setText(strMonth);
+        dateView.setText(strDate);
+        final ImageView imageView = (ImageView) v.findViewById(R.id.showImage);
+
+        Runnable runnable1 = new Runnable() {
+            @Override
+            public void run() {
+                FBHandler.GetProfileImage(name, imageView);
+            }
+        };
+        Thread thread1 = new Thread(runnable1);
+        thread1.start();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         ReminderAdapter taskAdapter = new ReminderAdapter(tasks, android.R.drawable.ic_input_add);
 //        ArrayAdapter<String> taskAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, tasks);
         task.setAdapter(taskAdapter);
 
-        Button newEnt = (Button) v.findViewById(R.id.newButton);
-        newEnt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), WallEntryActivity.class);
-                startActivity(intent);            }
-        });
+
 
 
 
@@ -172,33 +236,33 @@ public class BuddyCenterFragment extends Fragment {
 
 
 
-        wall = (ListView) v.findViewById(R.id.wallList);
-        Firebase postRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/posts");
-
-        FirebaseListAdapter<WallEntryItem> adapter = new FirebaseListAdapter<WallEntryItem>(this.getActivity(), WallEntryItem.class, R.layout.record_entry, postRef) {
-            @Override
-            protected void populateView(View view, WallEntryItem wallEntryItem) {
-                ImageView im = (ImageView) view.findViewById(R.id.wallPostImage);
-                TextView name = (TextView) view.findViewById(R.id.wallName);
-                TextView mes = (TextView) view.findViewById(R.id.wallMes);
-                ProgressBar p = (ProgressBar) view.findViewById(R.id.wallProgress);
-
-                String bitmapstring = wallEntryItem.getPic();
-                try {
-                    Bitmap imageBitmap = decodeFromFirebaseBase64(bitmapstring);
-                    im.setImageBitmap(imageBitmap);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                name.setText(wallEntryItem.getTitle());
-                mes.setText(wallEntryItem.getContent());
-                p.setProgress(wallEntryItem.getProgress());
-            }
-        };
-
-        wall.setAdapter(adapter);
+//        wall = (ListView) v.findViewById(R.id.wallList);
+//        Firebase postRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/posts");
+//
+//        FirebaseListAdapter<WallEntryItem> adapter = new FirebaseListAdapter<WallEntryItem>(this.getActivity(), WallEntryItem.class, R.layout.record_entry, postRef) {
+//            @Override
+//            protected void populateView(View view, WallEntryItem wallEntryItem) {
+//                ImageView im = (ImageView) view.findViewById(R.id.wallPostImage);
+//                TextView name = (TextView) view.findViewById(R.id.wallName);
+//                TextView mes = (TextView) view.findViewById(R.id.wallMes);
+//                ProgressBar p = (ProgressBar) view.findViewById(R.id.wallProgress);
+//
+//                String bitmapstring = wallEntryItem.getPic();
+//                try {
+//                    Bitmap imageBitmap = decodeFromFirebaseBase64(bitmapstring);
+//                    im.setImageBitmap(imageBitmap);
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                name.setText(wallEntryItem.getTitle());
+//                mes.setText(wallEntryItem.getContent());
+//                p.setProgress(wallEntryItem.getProgress());
+//            }
+//        };
+//
+//        wall.setAdapter(adapter);
 
 
 

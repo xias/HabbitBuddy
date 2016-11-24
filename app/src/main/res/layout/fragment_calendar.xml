@@ -1,7 +1,8 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.android.effectivenavigation.schedule.CalendarFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -9,7 +10,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="80">
 
         <CalendarView
             android:layout_width="match_parent"
@@ -26,4 +28,15 @@
             android:id="@+id/dailyTaskView"
             android:layout_weight="30" />
     </LinearLayout>
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/startButton"
+            android:text="Start A New Habit!"
+            android:layout_margin="30dp"/>
+    </LinearLayout>
+</LinearLayout>

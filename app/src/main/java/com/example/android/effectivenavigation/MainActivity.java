@@ -21,6 +21,8 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,10 +38,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.example.android.effectivenavigation.messenger.FriendItem;
 import com.example.android.effectivenavigation.messenger.FriendItemFragment;
 import com.example.android.effectivenavigation.schedule.CalendarFragment;
 import com.example.android.effectivenavigation.summary.BuddyCenterFragment;
+import com.example.android.effectivenavigation.summary.DiscoverFragment;
 import com.example.android.effectivenavigation.summary.PerformanceSummaryFragment;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -75,6 +80,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private static Fragment pFragment=null;
     private static Fragment dFragment=null;
 
+    private static Fragment discoverFragment = null;
+
 
 
     ViewPager mViewPager;
@@ -110,52 +117,62 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         //TODO go to login activity if not logged in
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#118C4E")));
+
         name= getIntent().getStringExtra("pos");
-        FBHandler.getThisUser("gorett");
-        FBHandler.getFriendlist("gorett");
+
+
+
+            FBHandler.getThisUser("gorett");
+            FBHandler.getFriendlist("gorett");
 //       database = FirebaseDatabase.getInstance();
 //
 //        DatabaseReference databaseReference = database.getReference("habitbuddy-9bca7");
 
 
-        // Create the adapter that will return a fragment for each of the three primary sections
-        // of the app.
-        mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
+            // Create the adapter that will return a fragment for each of the three primary sections
+            // of the app.
+            mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the action bar.
-        final ActionBar actionBar = getActionBar();
+            // Set up the action bar.
+            final ActionBar actionBar = getActionBar();
 
-        // Specify that the Home/Up button should not be enabled, since there is no hierarchical
-        // parent.
-        actionBar.setHomeButtonEnabled(false);
+            // Specify that the Home/Up button should not be enabled, since there is no hierarchical
+            // parent.
+            actionBar.setHomeButtonEnabled(false);
 
-        // Specify that we will be displaying tabs in the action bar.
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+            // Specify that we will be displaying tabs in the action bar.
+            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        // Set up the ViewPager, attaching the adapter and setting up a listener for when the
-        // user swipes between sections.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mAppSectionsPagerAdapter);
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                // When swiping between different app sections, select the corresponding tab.
-                // We can also use ActionBar.Tab#select() to do this if we have a reference to the
-                // Tab.
-                actionBar.setSelectedNavigationItem(position);
+
+            // Set up the ViewPager, attaching the adapter and setting up a listener for when the
+            // user swipes between sections.
+            mViewPager = (ViewPager) findViewById(R.id.pager);
+            mViewPager.setAdapter(mAppSectionsPagerAdapter);
+            mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+                    // When swiping between different app sections, select the corresponding tab.
+                    // We can also use ActionBar.Tab#select() to do this if we have a reference to the
+                    // Tab.
+                    actionBar.setSelectedNavigationItem(position);
+                }
+            });
+
+            // For each of the sections in the app, add a tab to the action bar.
+            for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
+                // Create a tab with text corresponding to the page title defined by the adapter.
+                // Also specify this Activity object, which implements the TabListener interface, as the
+                // listener for when this tab is selected.
+                actionBar.addTab(
+                        actionBar.newTab()
+                                .setText(mAppSectionsPagerAdapter.getPageTitle(i))
+                                .setTabListener(this));
             }
-        });
 
-        // For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by the adapter.
-            // Also specify this Activity object, which implements the TabListener interface, as the
-            // listener for when this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mAppSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
-        }
+
+
+
     }
 
     @Override
@@ -166,10 +183,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
+        // Set the color of the top bar
+
     }
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
     }
 
     /**
@@ -207,15 +227,27 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
                     return cFragment;
                 case 2:
-                    if(fFragment == null) {
+//                    if(fFragment == null) {
+//                        fFragment = new FriendItemFragment();
+//                    }
+////                    fragmentManager.popBackStack();
+//
+//                    return fFragment;
+                    if (discoverFragment == null) {
+                        discoverFragment = new DiscoverFragment();
+
+                    }
+                    return discoverFragment;
+
+                case 3:
+                    if( fFragment== null) {
+
                         fFragment = new FriendItemFragment();
                     }
 //                    fragmentManager.popBackStack();
 
                     return fFragment;
-
-
-                case 3:
+                case 4:
                     if(pFragment == null) {
 
                         pFragment = new PerformanceSummaryFragment();
@@ -241,7 +273,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
 
         @Override
@@ -252,8 +284,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 case 1:
                     return "Habit Calendar";
                 case 2:
-                    return "Message a Buddy";
+                    return "Habit Hangout";
                 case 3:
+                    return "Messaging";
+                case 4:
                     return "Habit Summary";
             }
             return "Section " + (position + 1);

@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#C1E1A6"
     tools:context="com.example.android.effectivenavigation.matching.SurveyActivity">
 
     <ScrollView

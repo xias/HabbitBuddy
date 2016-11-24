@@ -8,6 +8,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#C1E1A6"
+
+
     tools:context="com.example.android.effectivenavigation.LoginActivity">
 
     <!-- Login progress -->
@@ -22,52 +25,103 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+
+        >
 
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
             android:layout_height="wrap_content"
+
             android:orientation="vertical">
 
             <AutoCompleteTextView
+                android:layout_marginTop="16dp"
                 android:id="@+id/email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter your username"
+                android:layout_height="50dp"
+                android:hint="@string/prompt_email"
                 android:maxLines="1"
+                android:background="@drawable/myinputs"
                 android:singleLine="true" />
 
             <EditText
+                android:layout_marginTop="16dp"
                 android:id="@+id/password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:hint="@string/prompt_password"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
+                android:background="@drawable/myinputs"
+
                 android:singleLine="true" />
 
-            <Button
-                android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Sign In"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <!--<CheckBox-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="20"/>-->
+                <Button
+                    android:layout_weight="80"
+                    android:id="@+id/email_sign_in_button"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Sign In"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/mybuttons" />
+
+            </LinearLayout>
+
+
+
+            <TextView
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Not a User? "
+                android:gravity="center"
+                android:textSize="18sp"
+            android:textStyle="normal|bold|italic"
+            android:alpha="8"
+            android:textColor="#118C4E"/>
 
             <Button
                 android:id="@+id/email_sign_up_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="Sign Up"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/mybuttons"/>
 
+
+
+            <TextView
+                android:layout_marginTop="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:text="Copyright ECE1778 UT, 2016. All rights reserved."
+                android:textSize="10sp"
+                android:gravity="center"
+                android:textColor="#404040"/>
         </LinearLayout>
+
     </ScrollView>
+
 </LinearLayout>

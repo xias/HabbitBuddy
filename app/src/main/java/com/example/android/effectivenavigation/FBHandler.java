@@ -1,8 +1,13 @@
 package com.example.android.effectivenavigation;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.ListView;
 
+import com.example.android.effectivenavigation.adapter.ProfileAdapter;
 import com.example.android.effectivenavigation.messenger.UserObject;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -12,12 +17,14 @@ import com.firebase.client.ValueEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static com.example.android.effectivenavigation.messenger.UserObject.thisUser;
+import static com.example.android.effectivenavigation.summary.DiscoverFragment.decodeFromFirebaseBase64;
 
 /**
  * Created by Xu on 2016-11-09.
@@ -36,9 +43,9 @@ public class FBHandler {
 //    DatabaseReference mPostsRef = mRootRef.child("posts");
     public static Firebase meRef;
 
-    Firebase mRootRef =  new Firebase("https://habitbuddy-9bca7.firebaseio.com/");
+    static Firebase mRootRef =  new Firebase("https://habitbuddy-9bca7.firebaseio.com/");
     Firebase mScheduleRef = mRootRef.child("schedule");
-    Firebase mUsersRef = mRootRef.child("users");
+    static Firebase mUsersRef = mRootRef.child("users");
     Firebase mPostsRef = mRootRef.child("posts");
 
 
@@ -53,12 +60,251 @@ public class FBHandler {
 
     }
 
+    public static void TestDuplicate(String name) {
 
-    public void AddUser(String name){
+        final Firebase userListRef=mRootRef.child("list");
+        final String[] newS = new String[1];
+        final int[] flag = {9};
+        final String tempName = name;
+        userListRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+
+                newS[0] = dataSnapshot.getValue(String.class);
+                if (newS[0]==null||newS[0].equals("")){
+                    flag[0] = 1;
+                }else {
+                    flag[0] = 1;
+                    String[] temp = newS[0].split("\\|");
+                    Log.v("test",Arrays.toString(temp)+"*"+tempName);
+                    for (int i = 0; i < temp.length; i++) {
+
+                        if (temp[i].equals(tempName)){
+                            flag[0] = 0;
+                            break;
+
+                        }
+
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
+        Log.v("flag",String.valueOf(flag[0]));
+        if (flag[0]==0) {
+            name = null;
+        }
+    }
+
+    public static void SignUp(final String name, String password) {
+        Firebase userRef = mUsersRef.child(name);
+        userRef.child("password").setValue(password);
+        final Firebase userListRef=mRootRef.child("list");
+        final String[] newS = new String[1];
+
+        userListRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+
+                newS[0] = dataSnapshot.getValue(String.class);
+
+
+                if (newS[0]==null||newS[0].equals("")){
+                    userListRef.setValue(name);
+                }
+                else {
+                    newS[0] = newS[0] + "|"+name;
+                    userListRef.setValue(newS[0]);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
+
+    }
+
+    public static void GetProfileImage (String name, final ImageView view) {
+        Firebase userRef = mUsersRef.child(name).child("profileImage");
+        userRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+
+
+                try {
+                    Bitmap imageBitmap = decodeFromFirebaseBase64(dataSnapshot.getValue(String.class));
+                    view.setImageBitmap(imageBitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
+
+    }
+
+    public static void GetBuddiesImages (final Activity activity, final ListView listView, String name) {
+        Firebase userRef = mUsersRef.child(name).child("buddy");
+        userRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+//                final ArrayList<String> list = new ArrayList<String>();
+
+                String s = dataSnapshot.getValue(String.class);
+                if (s==null||s==""){
+                    String[] a = {"no Buddies"};
+                    ProfileAdapter adapter=new ProfileAdapter(activity,a,a);
+                    listView.setAdapter(adapter);
+                }else {
+                    final String[] temp = s.split("\\|");
+                    final String[] data = new String[temp.length];
+                    for (int i = 0; i < temp.length; i++) {
+                        Firebase buddyRef = mUsersRef.child(temp[i]).child("profileImage");
+                        final int finalI = i;
+                        buddyRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+                            @Override
+                            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                                data[finalI]=dataSnapshot.getValue(String.class);
+//                                list.add(dataSnapshot.getValue(String.class));
+                                if (finalI==temp.length-1) {
+                                    ProfileAdapter adapter=new ProfileAdapter(activity,temp,data);
+                                    listView.setAdapter(adapter);
+                                }
+
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+
+                        });
+                    }
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
+
+    }
+
+
+    public static void ActivityMatch(final String name, final String buddy) {
+        final Firebase userRef = mUsersRef.child(name).child("buddy");
+
+        final String[] newS = new String[1];
+
+        userRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+
+                newS[0] = dataSnapshot.getValue(String.class);
+
+
+                if (newS[0]==null||newS[0].equals("")){
+                    userRef.setValue(buddy);
+                }
+                else {
+                    newS[0] = newS[0] + "|"+buddy;
+                    userRef.setValue(newS[0]);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
+
+    }
+
+
+
+    public static void SetScheduleImage (String name, final ImageView view) {
+        Firebase userRef = mUsersRef.child(name).child("profileImage");
+        userRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+
+
+                try {
+                    Bitmap imageBitmap = decodeFromFirebaseBase64(dataSnapshot.getValue(String.class));
+                    view.setImageBitmap(imageBitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
+
+    }
+
+
+
+
+    public static void AddUser(String name){
         Firebase userRef = mUsersRef.child(name);
         userRef.child("ranking").setValue( 50 );
 
 
+    }
+
+    public static void IntakeResult(String username, final String intake) {
+
+
+        final Firebase mRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+username+"/intake");
+        mRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+//                        Log.v("NEWWWW", dataSnapshot.getValue(String.class));
+//                newS = dataSnapshot.getValue(String.class);
+////                        Log.v("NEWWWW","JKFJLDFJLKK");
+//                newS = newS + " "+name;
+
+
+                mRef.setValue(intake);
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
     }
 
     public static String getValueFromSnap(DataSnapshot d, String key ){

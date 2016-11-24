@@ -10,6 +10,8 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 
@@ -17,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,11 +59,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mProgressView;
     private View mLoginFormView;
     private String name;
+    private String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#118C4E")));
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -81,8 +87,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             @Override
             public void onClick(View view) {
                 attemptLogin();
+
+
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                 name = mEmailView.getEditableText().toString();
+                password = mPasswordView.getEditableText().toString();
+                Log.v("test",name+password);
                 Bundle mBundle = new Bundle();
                 mBundle.putString("pos",name);
                 intent.putExtras(mBundle);

@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.android.effectivenavigation.SignUpActivity">
+    tools:context="com.example.android.effectivenavigation.SignUpActivity"
+    android:background="#C1E1A6">
 
     <!-- Login progress -->
     <ProgressBar
@@ -22,26 +23,41 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp">
 
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Welcome to Habit Buddy! \n We are a platform to match users who want to start or maintain a healthy habit to other users who want to do the same."
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textStyle="normal|italic"
+                android:alpha="8"
+                android:background="@drawable/rounded_corner"
+                android:textColor="#3B3738"/>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:text="Username"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView4"
-                    android:layout_weight="30" />
+                    android:textSize="18sp"
+                    android:layout_weight="30"
+                    />
 
                 <AutoCompleteTextView
                     android:id="@+id/sign_up"
@@ -50,18 +66,22 @@
                     android:hint="Enter your username"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:background="@drawable/myinputs"
                     android:layout_weight="70" />
 
             </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
             <TextView
                 android:text="Password"
+                android:textSize="18sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="30" />
+                android:layout_weight="30"
+                />
             <EditText
                 android:id="@+id/password"
                 android:layout_width="0dp"
@@ -73,19 +93,22 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:layout_weight="70"/>
+                android:layout_weight="70"
+                android:background="@drawable/myinputs"/>
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
             <TextView
                 android:text="Re-Enter"
+                android:textSize="18sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="30" />
             <EditText
-                android:id="@+id/passwordagain"
+                android:id="@+id/passwordR"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="Re-enter password"
@@ -95,7 +118,8 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:layout_weight="70"/>
+                android:layout_weight="70"
+                android:background="@drawable/myinputs"/>
             </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -105,6 +129,7 @@
             >
             <TextView
                 android:text="Birthday"
+                android:textSize="18sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView3"
@@ -120,15 +145,67 @@
                 android:layout_weight="70"
                 />
     </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center"
+                >
+                <TextView
+                    android:text="Profile Photo"
+                    android:textSize="18sp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewP"
+                    android:layout_weight="30"/>
+                <ImageButton
+                android:layout_gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:id="@+id/camera_button"
+                android:layout_weight="17"
+                android:layout_marginTop="23dp"
+                    android:layout_marginBottom="23dp"
+
+                android:background="@null"
+
+
+                android:src="@drawable/camera" />
+
+                <ImageButton
+                    android:layout_gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:id="@+id/gallery_button"
+                    android:layout_weight="20"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginBottom="18dp"
+                    android:background="@null"
+
+
+                    android:src="@drawable/gallery" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="30"
+                    android:id="@+id/profileImage"/>
+
+
+            </LinearLayout>
             <Button
                 android:id="@+id/intake_button"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Sign Up"
                 android:textStyle="bold" />
+
             <!--style="?android:textAppearanceSmall"-->
         </LinearLayout>
+
     </ScrollView>
 </LinearLayout>

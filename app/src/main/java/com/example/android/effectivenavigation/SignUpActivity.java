@@ -10,13 +10,20 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,10 +32,17 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.effectivenavigation.matching.SurveyActivity;
+import com.example.android.effectivenavigation.summary.WallEntryItem;
+import com.firebase.client.Firebase;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +59,11 @@ public class SignUpActivity extends Activity implements LoaderCallbacks<Cursor> 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+    private static final int RESULT_GALLERY = 5;
+    private static Uri imageUri;
+    private static final int IMAGE_SCALE = 240;
+    boolean isPicTaken = false;
+    String bitmapString;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -53,19 +72,35 @@ public class SignUpActivity extends Activity implements LoaderCallbacks<Cursor> 
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText rPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private ImageButton openGallery;
+    private ImageView profileImage;
     private String name;
+    private String pwd;
+    private String pwdR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#118C4E")));
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.sign_up);
         populateAutoComplete();
-
         mPasswordView = (EditText) findViewById(R.id.password);
+        rPasswordView = (EditText) findViewById(R.id.passwordR);
+        openGallery = (ImageButton) findViewById(R.id.gallery_button);
+        profileImage = (ImageView) findViewById(R.id.profileImage);
+        bitmapString = null;
+        openGallery.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenGallery(v);
+            }
+        });
+
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -82,18 +117,58 @@ public class SignUpActivity extends Activity implements LoaderCallbacks<Cursor> 
             @Override
             public void onClick(View view) {
                 attemptLogin();
-                Intent intent = new Intent(SignUpActivity.this,SurveyActivity.class);
-                name = mEmailView.getEditableText().toString();
-                Bundle mBundle = new Bundle();
-                mBundle.putString("pos",name);
-                intent.putExtras(mBundle);
-                startActivity(intent);
-                finish();
+
+
+
+
+
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void OpenGallery(View v) {
+        Intent galleryIntent = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent , RESULT_GALLERY );
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_GALLERY:
+                if (resultCode == Activity.RESULT_OK) {
+
+
+                    Uri selectedImage = imageUri;
+//                    getContentResolver().notifyChange(selectedImage, null);
+                    imageUri = data.getData();
+
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 8;
+                    Bitmap bitmap = null;
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                        Bitmap bitmap2 = Bitmap.createScaledBitmap(bitmap, bitmap.getScaledWidth(IMAGE_SCALE), bitmap.getScaledHeight(IMAGE_SCALE), false);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap2.compress(Bitmap.CompressFormat.JPEG, 10, baos);
+                        bitmapString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+                        isPicTaken = true;
+                        bitmap.recycle();
+                        bitmap = null;
+                        bitmap2.recycle();
+                        bitmap2 = null;
+                        baos.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+                }
+        }
     }
 
     private void populateAutoComplete() {
@@ -107,6 +182,15 @@ public class SignUpActivity extends Activity implements LoaderCallbacks<Cursor> 
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
+
+
+        name = mEmailView.getEditableText().toString();
+
+
+        pwd = mPasswordView.getEditableText().toString();
+        pwdR = rPasswordView.getEditableText().toString();
+
+
         if (mAuthTask != null) {
             return;
         }
@@ -114,42 +198,78 @@ public class SignUpActivity extends Activity implements LoaderCallbacks<Cursor> 
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
-
+        rPasswordView.setError(null);
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
 
+        String nS = name;
+        FBHandler.TestDuplicate(nS);
         boolean cancel = false;
+        boolean photo = false;
         View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        Log.v("DEB",name+"*****");
+        // name cannot contain capital , cannot empty
+        if (name.matches(".*[A-Z].*")||name.isEmpty()) {
+            mEmailView.setError(getString(R.string.error_invalid_name));
+            focusView = mEmailView;
+            cancel = true;
+        }
+        else if (TextUtils.isEmpty(pwd) || !isPasswordValid(pwd)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
-
-        // Check for a valid email address.
-//        if (TextUtils.isEmpty(email)) {
-//            mEmailView.setError(getString(R.string.error_field_required));
-//            focusView = mEmailView;
-//            cancel = true;
-//        } else if (!isEmailValid(email)) {
-//            mEmailView.setError(getString(R.string.error_invalid_email));
+        else if (!pwd.equals(pwdR)) {
+            rPasswordView.setError(getString(R.string.error_matched_password));
+            focusView = rPasswordView;
+            cancel = true;
+        }
+//        else if (nS.equals(null)) {
+//            mEmailView.setError("Sorry, This name exist");
 //            focusView = mEmailView;
 //            cancel = true;
 //        }
+        else if (bitmapString ==null) {
+            photo = true;
+                }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
-        } else {
+        }
+        else if (photo) {
+            Toast.makeText(this,"Please select a profile image.", Toast.LENGTH_SHORT).show();
+        }else
+        {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+//            showProgress(true);
+//            mAuthTask = new UserLoginTask(email, pwd);
+//            mAuthTask.execute((Void) null);
+            Firebase postRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users");
+            //TODO push item to firebase, upload image with url returned
+            if(bitmapString == null){
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 2;
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.default_diary,options);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 1000, baos);
+                bitmapString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+            }
+            postRef.child(name).child("profileImage").setValue(bitmapString);
+            bitmapString = null;
+            finish();
+
+
+
+
+            FBHandler.SignUp(name,pwd);
+            Intent intent = new Intent(SignUpActivity.this,SurveyActivity.class);
+            Bundle mBundle = new Bundle();
+            mBundle.putString("pos",name);
+            intent.putExtras(mBundle);
+            startActivity(intent);
+            finish();
         }
     }
 

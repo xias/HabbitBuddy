@@ -25,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class WallEntryActivity  extends Activity {
@@ -49,6 +50,11 @@ public class WallEntryActivity  extends Activity {
         addPic = (Button) findViewById(R.id.addPicButton);
         bitmapString = null;
 
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMddHHmmss");
+
+        long strDate = Long.parseLong(simpleDateFormat.format(c.getTime()));
+//        Log.v("test all date",String.valueOf(strDate));
 
         post.setOnClickListener(new View.OnClickListener() {
             @Override

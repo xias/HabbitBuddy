@@ -1,6 +1,7 @@
 package com.example.android.effectivenavigation.schedule;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,15 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.android.effectivenavigation.MainActivity;
 import com.example.android.effectivenavigation.R;
+import com.example.android.effectivenavigation.SignUpActivity;
+import com.example.android.effectivenavigation.Start.StartActivity;
+import com.example.android.effectivenavigation.matching.SurveyActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import static com.example.android.effectivenavigation.MainActivity.name;
 
 
 public class CalendarFragment extends Fragment {
@@ -45,6 +53,17 @@ public class CalendarFragment extends Fragment {
         calendarView = (CalendarView) mView.findViewById(R.id.calView);
         taskView = (ListView) mView.findViewById(R.id.dailyTaskView);
         calendarView.setDate(System.currentTimeMillis());
+        Button startHabit = (Button)mView.findViewById(R.id.startButton);
+        startHabit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),StartActivity.class);
+                Bundle mBundle = new Bundle();
+                mBundle.putString("pos",name);
+                intent.putExtras(mBundle);
+                startActivity(intent);
+            }
+        });
 //        Toast.makeText(getActivity(), String.valueOf(System.currentTimeMillis()), Toast.LENGTH_SHORT).show();
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {

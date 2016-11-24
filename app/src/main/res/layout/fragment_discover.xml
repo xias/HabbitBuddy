@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.effectivenavigation.summary.BuddyCenterFragment"
+    android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+
+        >
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <TextView
+                    android:text="Hi, Guest. What's up?"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView9"
+                    android:layout_margin="5dp"
+                    android:layout_weight="3"
+                    android:textSize="30sp" />
+
+
+
+                <ImageButton
+                    android:src="@drawable/add_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+
+                    android:scaleType="centerInside"
+
+                    android:id="@+id/addEntryButton"
+                    android:layout_weight="1"
+                    android:background="@null"/>
+
+            </LinearLayout>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="33"
+                android:layout_marginTop="12dp"
+                android:id="@+id/recentTaskList" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="90"
+        android:background="@drawable/stroke_bg"
+
+        android:layout_margin="16dp"
+        android:padding="10dp"
+        android:id="@+id/wallList" />
+
+
+
+
+</LinearLayout>

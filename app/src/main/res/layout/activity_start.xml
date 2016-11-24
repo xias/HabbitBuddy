@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/schedule_container"
+    android:background="#C1E1A6">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="30"
+
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+
+
+        >
+
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Which healthy habit would you like to start or maintain?"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:textSize="24sp" />
+
+
+
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="30"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/rounded_corner">
+        <TextView
+            android:text="Tips:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_buddy"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="6dp"
+            android:layout_weight="1" />
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="33"
+            android:layout_marginTop="12dp"
+            android:id="@+id/buddyTaskList" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="60"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView9"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="6dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="33"
+            android:orientation="horizontal">
+            <ImageButton
+                android:layout_width="0dp"
+
+                android:layout_height="match_parent"
+
+                android:src="@drawable/embodied_practices"
+                android:id="@+id/imageButton"
+                android:scaleType="centerCrop"
+                android:layout_weight="25" />
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/exercise"
+                android:id="@+id/imageButtonExercise"
+                android:scaleType="centerCrop"
+                android:layout_weight="25" />
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/sleep_hygiene"
+                android:id="@+id/imageButton3"
+                android:scaleType="centerCrop"
+                android:layout_weight="25" />
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/mindfulness_reflection"
+                android:scaleType="centerCrop"
+                android:id="@+id/imageButton4"
+                android:layout_weight="25" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="33"></LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="33"></LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
