@@ -63,6 +63,9 @@ public class ProfileAdapter extends BaseAdapter {
 
             imageBitmap = decodeFromFirebaseBase64(data[position]);
             image.setImageBitmap(imageBitmap);
+//            data[position]=null;
+//            imageBitmap.recycle();
+//            imageBitmap=null;
         } catch (IOException e) {
             e.printStackTrace();
         }

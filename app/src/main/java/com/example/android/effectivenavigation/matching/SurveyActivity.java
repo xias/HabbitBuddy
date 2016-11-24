@@ -67,7 +67,7 @@ public class SurveyActivity extends Activity {
 
 
 
-
+//                FBHandler.Match(name);
 
                 FBHandler.IntakeResult(name,res);
                 Intent intent = new Intent(SurveyActivity.this,StartActivity.class);

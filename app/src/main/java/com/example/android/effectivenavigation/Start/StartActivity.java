@@ -22,7 +22,7 @@ import static com.example.android.effectivenavigation.MainActivity.name;
  */
 
 public class StartActivity extends Activity {
-
+    static String cate;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
@@ -33,7 +33,29 @@ public class StartActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                String cate = "exercise";
+                cate = "exercise";
+                Bundle bundle = new Bundle();
+                bundle.putString("pos",name);
+
+                ScheduleFragment scheduleFragment = new ScheduleFragment();
+
+
+                // In case this activity was started with special instructions from an
+                // Intent, pass the Intent's extras to the fragment as arguments
+                //scheduleFragment.setArguments(getIntent().getExtras());
+
+                // Add the fragment to the 'fragment_container' FrameLayout
+                getFragmentManager().beginTransaction()
+                        .add(R.id.schedule_container, scheduleFragment).commit();
+
+            }
+        });
+        ImageButton imageButton2 = (ImageButton)findViewById(R.id.imageButton3);
+        imageButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                cate = "sleep hygiene";
                 Bundle bundle = new Bundle();
                 bundle.putString("pos",name);
 

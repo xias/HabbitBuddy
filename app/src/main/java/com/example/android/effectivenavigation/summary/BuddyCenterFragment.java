@@ -34,6 +34,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import static com.example.android.effectivenavigation.MainActivity.name;
 
@@ -47,10 +50,9 @@ public class BuddyCenterFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-
+    public static  ArrayList<String> tasks;
     private ListView wall;
-    private ListView task;
+    private ListView recentTask;
     private ListView reminder;
 
 
@@ -106,10 +108,28 @@ public class BuddyCenterFragment extends Fragment {
         //TODO initiate wall post content from firebase
 
 
-        List<String> tasks = new ArrayList<>(3);
-        tasks.add("Walk for 2 miles. ");
-        tasks.add("Update my progress with Rob");
-        tasks.add("Prepare for new diet plan. ");
+        tasks = new ArrayList<>();
+
+
+
+
+
+
+
+//        try {
+//            latch.await();
+//            Log.v("result!", String.valueOf(tasks));
+//
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+
+        Log.v("split!", String.valueOf(tasks));
+
+//        ReminderAdapter taskAdapter = new ReminderAdapter(tasks, android.R.drawable.ic_input_add);
+////        ArrayAdapter<String> taskAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, tasks);
+//        task.setAdapter(taskAdapter);
 
 
 
@@ -121,7 +141,10 @@ public class BuddyCenterFragment extends Fragment {
         FBHandler.GetBuddiesImages(getActivity(),list,name);
 
 
-//        ArrayList<String> list = new ArrayList<String>();
+
+
+
+
 //        list.add("item1");
 //        list.add("item2");
 //
@@ -132,7 +155,8 @@ public class BuddyCenterFragment extends Fragment {
 //        ListView listView = (ListView)v.findViewById(R.id.buddies);
 //        listView.setAdapter(adapter);
 
-        task = (ListView) v.findViewById(R.id.recentTaskList);
+        recentTask = (ListView) v.findViewById(R.id.recentTaskList);
+//        ArrayList<String> listTasks = new ArrayList<String>();
 
         Calendar c = Calendar.getInstance();
 //        SimpleDateFormat sdf = new SimpleDateFormat("EEE  MMM d, ''yy");
@@ -166,8 +190,8 @@ public class BuddyCenterFragment extends Fragment {
                 FBHandler.GetProfileImage(name, imageView);
             }
         };
-        Thread thread1 = new Thread(runnable1);
-        thread1.start();
+        Thread thread2 = new Thread(runnable1);
+        thread2.start();
 
 
 
@@ -182,9 +206,7 @@ public class BuddyCenterFragment extends Fragment {
 
 
 
-        ReminderAdapter taskAdapter = new ReminderAdapter(tasks, android.R.drawable.ic_input_add);
-//        ArrayAdapter<String> taskAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, tasks);
-        task.setAdapter(taskAdapter);
+
 
 
 
@@ -202,6 +224,7 @@ public class BuddyCenterFragment extends Fragment {
 //        rems.add("Maybe you can walk to get grocery today? ");
 
         reminder = (ListView) v.findViewById(R.id.reminderList);
+        FBHandler.checkTodaySchedule(name,"exercise",getContext(),recentTask);
         final ReminderAdapter reminderAdapter = new ReminderAdapter(rems,android.R.drawable.btn_star_big_on);
         reminder.setAdapter(reminderAdapter);
         Firebase tipRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/tips");

@@ -1,12 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    >
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="30"
+        android:layout_weight="10"
+
+        >
+
+
+
+        <TextView
+            android:text="Habit"
+            android:textSize="18sp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/type"
+            android:layout_weight="35"/>
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="0dp"
+            android:layout_weight="65"
+            android:layout_height="wrap_content"
+            android:id="@+id/exercise_habit"
+            android:orientation="horizontal">
+            <RadioButton android:id="@+id/radio_running"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Running"
+                />
+            <RadioButton android:id="@+id/radio_walking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Walking"
+                />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15"
         android:gravity="center"
         >
         <TextView
@@ -22,8 +63,34 @@
             android:layout_height="136dp"
             android:id="@+id/datePickerStart"
             android:calendarViewShown="false"
-            android:maxDate="12/31/1997"
-            android:minDate="01/01/1900"
+
+            android:minDate="11/25/2016"
+            android:layout_weight="70"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="15"
+        android:gravity="center"
+
+        >
+        <TextView
+            android:text="End Data"
+            android:textSize="18sp"
+            android:layout_width="0dp"
+            android:layout_weight="30"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewEnd"
+            />
+
+        <DatePicker
+            android:layout_width="0dp"
+            android:layout_height="136dp"
+            android:id="@+id/datePickerEnd"
+            android:calendarViewShown="false"
+            android:minDate="11/26/2016"
             android:layout_weight="70"
             />
     </LinearLayout>
@@ -33,30 +100,71 @@
         android:layout_height="0dp"
         android:layout_weight="30"
         android:gravity="center"
+        android:layout_marginTop="10dp"
         >
         <TextView
-            android:text="End Data"
+            android:text="Frequency"
             android:textSize="18sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewEnd"
-            android:layout_weight="30"/>
-
-        <DatePicker
+            android:id="@+id/textViewFrequency"
+            android:layout_weight="35"/>
+        <ListView
             android:layout_width="0dp"
-            android:layout_height="136dp"
-            android:id="@+id/datePickerEnd"
-            android:calendarViewShown="false"
-            android:maxDate="12/31/1997"
-            android:minDate="01/01/1900"
-            android:layout_weight="70"
-            />
+            android:layout_weight="65"
+            android:layout_height="match_parent"
+            android:id="@+id/chooseFrequency">
+
+        </ListView>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:gravity="center"
+        >
+
+
+
+        <TextView
+            android:text="Intensity"
+            android:textSize="18sp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/intensity"
+            android:layout_weight="35"/>
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="0dp"
+            android:layout_weight="65"
+            android:layout_height="wrap_content"
+            android:id="@+id/radio"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/radio_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Easy"
+                />
+            <RadioButton android:id="@+id/radio_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Moderate"
+                />
+            <RadioButton android:id="@+id/radio_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="High-Intensity"
+                />
+        </RadioGroup>
+
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="30"
+        android:layout_weight="20"
         android:gravity="center"
         >
         <Button
@@ -64,5 +172,5 @@
             android:layout_height="match_parent"
             android:id="@+id/buttonFinish"/>
 
-        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

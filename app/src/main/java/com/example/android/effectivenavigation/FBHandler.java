@@ -1,6 +1,7 @@
 package com.example.android.effectivenavigation;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -8,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.android.effectivenavigation.adapter.ProfileAdapter;
+import com.example.android.effectivenavigation.adapter.TaskAdapter;
 import com.example.android.effectivenavigation.messenger.UserObject;
+import com.example.android.effectivenavigation.summary.BuddyCenterFragment;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -18,12 +21,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
+import static com.example.android.effectivenavigation.MainActivity.name;
 import static com.example.android.effectivenavigation.messenger.UserObject.thisUser;
+
+
+
 import static com.example.android.effectivenavigation.summary.DiscoverFragment.decodeFromFirebaseBase64;
 
 /**
@@ -214,6 +225,174 @@ public class FBHandler {
 
     }
 
+    public static void Match(final String name) {
+        Firebase mRef = mRootRef.child("list");
+        mRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+            //addValueEventListener
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                final String temp = dataSnapshot.getValue(String.class);
+                final String[] names = temp.split(" \\|");
+                Log.v("N", Arrays.toString(names));
+                final int[] myARR = new int[7];
+                final int[][] compare = new int[names.length][7];
+                for (int i = 0; i < names.length; i++) {
+
+
+                    Firebase nFirebase = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+names[i]+"/intake");
+                    Log.v("names", names[i] + "ff" + name);
+                    final int finalI = i;
+                    final int finalI1 = i;
+                    nFirebase.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            String tempV = dataSnapshot.getValue(String.class);
+                            String[] cal = tempV.split(" ");
+                            int[] results = new int[cal.length - 1];
+
+                            for (int j = 1; j < cal.length; j++) {
+                                try {
+                                    results[j - 1] = Integer.parseInt(cal[j]);
+
+
+                                    compare[finalI1][j - 1] = results[j - 1];
+
+
+                                } catch (NumberFormatException nfe) {
+                                    //NOTE: write something here if you need to recover from formatting errors
+                                }
+                                ;
+                            }
+
+                            if (names[finalI].equals(name)) {
+                                for (int p = 0; p < 7; p++) {
+                                    myARR[p] = compare[finalI][p];
+
+                                    Log.v("Test", String.valueOf(compare[finalI][p]));
+
+                                }
+                                for (int q=0;q<7;q++){
+                                    compare[finalI][q]=100;
+                                }
+                                int[] matchHelper = new int[names.length];
+                                for (int time= 0;time<names.length;time++){
+                                    int temp = 0;
+                                    for (int k = 0;k<7;k++) {
+                                        temp +=((myARR[k]-compare[time][k])*(myARR[k]-compare[time][k]));
+                                        Log.v("Temp of ***", String.valueOf(temp));
+                                    }
+                                    matchHelper[time] = (int)Math.sqrt((double)temp);
+
+                                }
+                                Log.v("DIO", Arrays.toString(matchHelper));
+
+                                if (matchHelper.length == 0)
+                                    return;
+                                int small = matchHelper[0];
+                                int index = 0;
+                                for (int ip = 0; ip < matchHelper.length; ip++) {
+                                    if (matchHelper[ip] < small)
+                                    {
+                                        small = matchHelper[ip];
+                                        index = ip;
+                                    }
+                                    Log.v("have",names[ip]);
+                                }
+                                Log.v("buddyis",names[index]);
+
+//                                match_view.setText("Your Buddy is:"+ names[index]);
+                            }
+
+
+                            Log.v("DIO", Arrays.toString(myARR) + "***"+finalI + Arrays.toString(compare[finalI]));
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+                    });
+//                                mRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/" + names[i]);
+//                                mRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+//                                    //addValueEventListener
+//                                    @Override
+//                                    public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+//                                        String temp = dataSnapshot.getValue(String.class);
+//                                        Log.v("Find",temp);
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(FirebaseError firebaseError) {
+//
+//                                    }
+//                                });
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
+    }
+
+
+    public static void SetSchedule(final String name, String type, String d1, String d2, String f, String s, final String s1){
+        Firebase userRef = mUsersRef.child(name).child("schedule").child(type).child(s1);
+        userRef.child("startDate").setValue(d1);
+        userRef.child("endDate").setValue(d2);
+        userRef.child("frequency").setValue(f);
+        userRef.child("intensity").setValue(s);
+
+        final Firebase userRef2 = mUsersRef.child(name).child("schedule").child(type).child("exist");
+        userRef2.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                int flag = 0;
+                String info = dataSnapshot.getValue(String.class);
+
+                String result = null;
+                if (info==null){
+
+                    userRef2.setValue(s1);
+                }else {
+//                    Log.v("data",info);
+                    String[] temp = info.split("\\|");
+//                    Log.v("split",Arrays.toString(temp));
+                    for (int i = 0; i<temp.length;i++) {
+                        if (temp[i] == s1) {
+                         flag=1;
+                        }else {
+                            result = temp[i];
+                        }
+                    }
+                    if (flag != 1) {
+                        if (result==null) {
+                            result = s1;
+                        }else {
+                            result = result +"|"+s1;
+                        }
+
+                    }
+                    userRef2.setValue(result);
+                }
+
+            }
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+
+            });
+
+
+    }
+
+
+
 
     public static void ActivityMatch(final String name, final String buddy) {
         final Firebase userRef = mUsersRef.child(name).child("buddy");
@@ -362,6 +541,90 @@ public class FBHandler {
                 }
             });
         }
+
+    }
+
+    public static void checkTodaySchedule(final String name, final String cate, final Context c, final ListView listView) {
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = sdf.format(new Date());
+        Log.v("today",currentDate);
+        final String[] display = {null,null};
+        final ArrayList<String> listTasks = new ArrayList<String>();
+        final String[] type = {null};
+        final Firebase userRef = mUsersRef.child(name).child("schedule").child(cate).child("exist");
+        userRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                Log.v("cate",dataSnapshot.getValue(String.class));
+                type[0] =dataSnapshot.getValue(String.class);
+                final String[] numberExercise = type[0].split("\\|");
+                final String[] intensity = {null,null};
+                for (int i = 0;i<numberExercise.length;i++) {
+
+                    final Firebase userRef2 = mUsersRef.child(name).child("schedule").child(cate).child(numberExercise[i]);
+                    final int finalI = i;
+                    userRef2.child("intensity").addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+                        @Override
+                        public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+
+                            intensity[finalI] =dataSnapshot.getValue(String.class);
+                            final String[] day = {null,null};
+                            userRef2.child("frequency").addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+                                @Override
+                                public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+
+                                    day[finalI] =dataSnapshot.getValue(String.class);
+                                    String[] temp = day[finalI].split("\\|");
+                                    SimpleDateFormat dayInWeek = new SimpleDateFormat("u");
+                                    int currentDayInWeek = Integer.parseInt(dayInWeek.format(new Date()));
+//                Log.v("split",String.valueOf(currentDayInWeek));
+//                Log.v("split",Arrays.toString(temp));
+//                Log.v("split",temp[currentDayInWeek-1]);
+                                    if (Integer.parseInt(temp[currentDayInWeek-1])==1){
+
+                                        display[finalI] = intensity[finalI]+" "+ numberExercise[finalI];
+                                        listTasks.add(display[finalI]);
+                                        Log.v("Result", String.valueOf(display[finalI]));
+                                    }
+                                    Log.v("Result!!", String.valueOf(listTasks));
+                                    TaskAdapter taskAdapter = new TaskAdapter(listTasks,c);
+                                    listView.setAdapter(taskAdapter);
+
+                                }
+
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+
+                                }
+
+                            });
+
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+
+                    });
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
+
+
+
+
+
 
     }
 //    public void
