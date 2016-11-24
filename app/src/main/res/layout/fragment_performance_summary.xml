@@ -1,13 +1,53 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.android.effectivenavigation.summary.PerformanceSummaryFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:text="Performance Summary"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp" />
 
-</FrameLayout>
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:margin="5dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+
+        <Button
+            android:text="Add a new habit"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:id="@+id/button2"
+            android:padding="10dp"
+            android:layout_margin="15dp"
+/>
+
+        <Button
+            android:text="Change Frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:id="@+id/button3"
+            android:layout_margin="15dp"
+            android:padding="10dp"/>
+    </LinearLayout>
+
+</LinearLayout>
