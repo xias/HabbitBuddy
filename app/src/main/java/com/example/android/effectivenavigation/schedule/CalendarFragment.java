@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.android.effectivenavigation.FBHandler;
 import com.example.android.effectivenavigation.MainActivity;
 import com.example.android.effectivenavigation.R;
 import com.example.android.effectivenavigation.SignUpActivity;
@@ -23,6 +25,7 @@ import com.example.android.effectivenavigation.matching.SurveyActivity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static com.example.android.effectivenavigation.MainActivity.name;
 
@@ -53,6 +56,12 @@ public class CalendarFragment extends Fragment {
         calendarView = (CalendarView) mView.findViewById(R.id.calView);
         taskView = (ListView) mView.findViewById(R.id.dailyTaskView);
         calendarView.setDate(System.currentTimeMillis());
+        /*
+        *  int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        *  way to get day of week
+        * */
+
+
         Button startHabit = (Button)mView.findViewById(R.id.startButton);
         startHabit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +83,11 @@ public class CalendarFragment extends Fragment {
                 calendar.setTime(date);
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                 ListView listView = (ListView) mView.findViewById(R.id.dailyTaskView);
+
+//                String[] items = {null, null};
+//                FBHandler.checkBothSchedule(name,items);
+//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+//                listView.setAdapter(adapter);
 
                 if(dayOfWeek == 2 || dayOfWeek == 4 || dayOfWeek == 6) {
                     String[] items = {"Run 1 mile", "Lincoln run 1 mile", "Jefferson Run 1 mile", "Roosevelt Run 1 mile", "Gore Run 1 mile"};
