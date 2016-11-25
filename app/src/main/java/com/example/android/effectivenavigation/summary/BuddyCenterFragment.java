@@ -139,7 +139,13 @@ public class BuddyCenterFragment extends Fragment {
 //        name= getActivity().getIntent().getStringExtra("pos");
         ListView list=(ListView)v.findViewById(R.id.buddies);
         FBHandler.GetBuddiesImages(getActivity(),list,name);
-
+        Button matchB = (Button) v.findViewById(R.id.match_button);
+        matchB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FBHandler.Match(name);
+            }
+        });
 
 
 

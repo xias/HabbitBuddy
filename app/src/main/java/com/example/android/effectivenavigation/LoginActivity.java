@@ -109,7 +109,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         mEmailSignUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
                 Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
                 startActivity(intent);
             }

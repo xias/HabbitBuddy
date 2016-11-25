@@ -171,7 +171,7 @@ public class FBHandler {
 
     public static void GetBuddiesImages (final Activity activity, final ListView listView, String name) {
         Firebase userRef = mUsersRef.child(name).child("buddy");
-        userRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+        userRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
             @Override
             public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
 //                final ArrayList<String> list = new ArrayList<String>();
