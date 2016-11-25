@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
@@ -178,9 +179,9 @@ public class FBHandler {
 
                 String s = dataSnapshot.getValue(String.class);
                 if (s==null||s==""){
-                    String[] a = {"no Buddies"};
-                    ProfileAdapter adapter=new ProfileAdapter(activity,a,a);
-                    listView.setAdapter(adapter);
+//                    String[] a = {"no Buddies"};
+//                    ProfileAdapter adapter=new ProfileAdapter(activity,a,a);
+//                    listView.setAdapter(adapter);
                 }else {
                     final String[] temp = s.split("\\|");
                     final String[] data = new String[temp.length];
@@ -231,22 +232,22 @@ public class FBHandler {
             @Override
             public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
                 final String temp = dataSnapshot.getValue(String.class);
-                final String[] names = temp.split(" \\|");
+                final String[] names = temp.split("\\|");
                 Log.v("N", Arrays.toString(names));
                 final int[] myARR = new int[7];
                 final int[][] compare = new int[names.length][7];
                 for (int i = 0; i < names.length; i++) {
 
 
-                    Firebase nFirebase = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+names[i]+"/intake");
-                    Log.v("names", names[i] + "ff" + name);
+                    final Firebase nFirebase = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+names[i]+"/intake");
+//                    Log.v("names", names[i] + "ff" + name);
                     final int finalI = i;
                     final int finalI1 = i;
                     nFirebase.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-
                             String tempV = dataSnapshot.getValue(String.class);
+//                            Log.v("namesV", names[finalI] + "ff" + name);
                             String[] cal = tempV.split(" ");
                             int[] results = new int[cal.length - 1];
 
@@ -299,7 +300,9 @@ public class FBHandler {
                                     Log.v("have",names[ip]);
                                 }
                                 Log.v("buddyis",names[index]);
-
+                                final Firebase nFirebase = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+names[finalI]+"/buddy");
+                                nFirebase.setValue(names[index]);
+//
 //                                match_view.setText("Your Buddy is:"+ names[index]);
                             }
 
@@ -576,9 +579,12 @@ public class FBHandler {
 
                                     day[finalI] =dataSnapshot.getValue(String.class);
                                     String[] temp = day[finalI].split("\\|");
-                                    SimpleDateFormat dayInWeek = new SimpleDateFormat("MMMM yyyy");
-                                    int currentDayInWeek = 3;
-//                                    int currentDayInWeek = Integer.parseInt(dayInWeek.format(new Date()));
+//                                    SimpleDateFormat dayInWeek = new SimpleDateFormat("u");
+                                    Calendar sCalendar = Calendar.getInstance();
+                                    String dayLongName = sCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+                                    Log.v("Day of ",dayLongName);
+
+                                    int currentDayInWeek = getIntFromDay(dayLongName);
 
                                     if (Integer.parseInt(temp[currentDayInWeek-1])==1){
 
@@ -643,6 +649,18 @@ public class FBHandler {
 
      */
 
-
+private static int getIntFromDay(String day){
+    int res = 0;
+    switch (day){
+        case "Monday": res =1;break;
+        case"Tuesday": res = 2;break;
+        case"Wednesday": res = 3;break;
+        case"Thursday": res = 4;break;
+        case"Friday": res = 5;break;
+        case"Saturday": res = 6;break;
+        case"Sunday": res = 7;
+    }
+    return res;
+}
 
 }
