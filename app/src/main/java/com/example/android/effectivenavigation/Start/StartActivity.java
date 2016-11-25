@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import com.example.android.effectivenavigation.R;
 import com.example.android.effectivenavigation.matching.SurveyActivity;
@@ -28,6 +29,9 @@ public class StartActivity extends Activity {
         setContentView(R.layout.activity_start);
         getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#118C4E")));
 //        name= getIntent().getStringExtra("pos");
+        ListView listView =(ListView)findViewById(R.id.StartTipsList);
+
+//        listView.setAdapter();
         ImageButton imageButton = (ImageButton)findViewById(R.id.imageButtonExercise);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
