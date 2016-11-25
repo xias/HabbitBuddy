@@ -116,12 +116,26 @@
                 android:layout_marginTop="20dp"
                 android:text="Your Buddies:"/>
         </LinearLayout>
-        <ListView
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="40"
-            android:layout_marginTop="12dp"
-            android:id="@+id/buddies" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="20"
+                android:id="@+id/match_button"
+                android:text="Match!"/>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="80"
+                android:layout_marginTop="12dp"
+                android:id="@+id/buddies" />
+
+        </LinearLayout>
+
 
 
     </LinearLayout>
@@ -133,7 +147,7 @@
         android:layout_weight="5"
         >
         <TextView
-            android:text="My recent tasks:"
+            android:text="Today's tasks:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView9"
