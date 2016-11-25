@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -32,6 +33,8 @@ import android.widget.TextView;
 
 import com.example.android.effectivenavigation.matching.SurveyActivity;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +61,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private String name;
+    private String mname;
     private String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,11 +93,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                name = mEmailView.getEditableText().toString();
+                mname = mEmailView.getEditableText().toString();
                 password = mPasswordView.getEditableText().toString();
-                Log.v("test",name+password);
+                Log.v("test",mname+password);
+                MainActivity.user_name = mname;
+                writeLogin(mname);
                 Bundle mBundle = new Bundle();
-                mBundle.putString("pos",name);
+                mBundle.putString("pos",mname);
                 intent.putExtras(mBundle);
                 startActivity(intent);
             }
@@ -112,6 +117,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void writeLogin(String data) {
+
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(this.getApplicationContext().openFileOutput("config.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+
     }
 
     private void populateAutoComplete() {

@@ -55,8 +55,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, FriendItemFragment.OnListFragmentInteractionListener {
@@ -73,6 +77,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * The {@link ViewPager} that will display the three primary sections of the app, one at a
      * time.
      */
+    public static String user_name = null;
+
     public static FirebaseDatabase database;
     private static BuddyCenterFragment buddyCenterFragment;
     private static Fragment cFragment=null;
@@ -111,23 +117,57 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 .setNegativeButton("No", dialogClickListener).show();
     }
 
+    private String readLogin(){
+        String ret=null;
+        try {
+            InputStream inputStream = this.getApplicationContext().openFileInput("config.txt");
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        }
+        catch (IOException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        }
+        return ret;
+    }
+
+
+
+
     public static String name;
     public void onCreate(Bundle savedInstanceState) {
 
         //TODO go to login activity if not logged in
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#118C4E")));
-
-        name= getIntent().getStringExtra("pos");
-
+        user_name = readLogin();
+        if (user_name == null || user_name.isEmpty()) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else{
+                setContentView(R.layout.activity_main);
+            getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#118C4E")));
+            name = user_name;
+    //        name= getIntent().getStringExtra("pos");
 
 
             FBHandler.getThisUser("gorett");
             FBHandler.getFriendlist("gorett");
-//       database = FirebaseDatabase.getInstance();
-//
-//        DatabaseReference databaseReference = database.getReference("habitbuddy-9bca7");
+    //       database = FirebaseDatabase.getInstance();
+    //
+    //        DatabaseReference databaseReference = database.getReference("habitbuddy-9bca7");
 
 
             // Create the adapter that will return a fragment for each of the three primary sections
@@ -171,8 +211,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
 
 
-
-
+        }
     }
 
     @Override

@@ -47,7 +47,6 @@ public class FBHandler {
 //    private final Firebase mRef;
     FirebaseDatabase FBDatabase = FirebaseDatabase.getInstance();
 
-
 //    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
 //    DatabaseReference mScheduleRef = mRootRef.child("schedule");
 //    DatabaseReference mUsersRef = mRootRef.child("users");
@@ -577,11 +576,10 @@ public class FBHandler {
 
                                     day[finalI] =dataSnapshot.getValue(String.class);
                                     String[] temp = day[finalI].split("\\|");
-                                    SimpleDateFormat dayInWeek = new SimpleDateFormat("u");
-                                    int currentDayInWeek = Integer.parseInt(dayInWeek.format(new Date()));
-//                Log.v("split",String.valueOf(currentDayInWeek));
-//                Log.v("split",Arrays.toString(temp));
-//                Log.v("split",temp[currentDayInWeek-1]);
+                                    SimpleDateFormat dayInWeek = new SimpleDateFormat("MMMM yyyy");
+                                    int currentDayInWeek = 3;
+//                                    int currentDayInWeek = Integer.parseInt(dayInWeek.format(new Date()));
+
                                     if (Integer.parseInt(temp[currentDayInWeek-1])==1){
 
                                         display[finalI] = intensity[finalI]+" "+ numberExercise[finalI];

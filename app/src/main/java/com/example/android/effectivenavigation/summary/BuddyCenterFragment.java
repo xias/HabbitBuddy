@@ -136,7 +136,7 @@ public class BuddyCenterFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_buddy_center, container, false);
 
-        name= getActivity().getIntent().getStringExtra("pos");
+//        name= getActivity().getIntent().getStringExtra("pos");
         ListView list=(ListView)v.findViewById(R.id.buddies);
         FBHandler.GetBuddiesImages(getActivity(),list,name);
 
