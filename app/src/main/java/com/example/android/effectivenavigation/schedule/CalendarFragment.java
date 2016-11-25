@@ -21,6 +21,11 @@ import com.example.android.effectivenavigation.R;
 import com.example.android.effectivenavigation.SignUpActivity;
 import com.example.android.effectivenavigation.Start.StartActivity;
 import com.example.android.effectivenavigation.matching.SurveyActivity;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -79,27 +84,63 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 Calendar calendar = Calendar.getInstance();
-                Date date = new Date(year,month,dayOfMonth);
+                final Date date = new Date(year,month,dayOfMonth);
                 calendar.setTime(date);
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                ListView listView = (ListView) mView.findViewById(R.id.dailyTaskView);
+                final ListView listView = (ListView) mView.findViewById(R.id.dailyTaskView);
 
 //                String[] items = {null, null};
 //                FBHandler.checkBothSchedule(name,items);
 //                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
 //                listView.setAdapter(adapter);
+                Firebase mRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/schedule");
+                Firebase cRef = mRef.child("s93").child("start_end");
+                final Date[] se_dates = new Date[2];
+                cRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String s = dataSnapshot.getValue(String.class);
+                        String[] dates = s.split(" ");
+                        String[] dmy = dates[0].split("/");
+                        String[] end_dmy = dates[1].split("/");
+                        se_dates[0] = new Date(Integer.valueOf(dmy[2]),Integer.valueOf(dmy[0]),Integer.valueOf(dmy[1]));
+                        se_dates[1] = new Date(Integer.valueOf(end_dmy[2]),Integer.valueOf(end_dmy[0]),Integer.valueOf(end_dmy[1]));
+                        if(date.after(se_dates[0]) &&  date.before(se_dates[1])   ) {
+                            String[] items = {"easy run", "Rick easy walk"};
+                            //TODO add items from database(saved calendar entries)
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+                            listView.setAdapter(adapter);
+                        }else{
+                            String[] items = {"No Activity today!"};
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+                            listView.setAdapter(adapter);
+                        }
+                    }
 
-                if(dayOfWeek == 2 || dayOfWeek == 4 || dayOfWeek == 6) {
-                    String[] items = {"Run 1 mile", "Lincoln run 1 mile", "Jefferson Run 1 mile", "Roosevelt Run 1 mile", "Gore Run 1 mile"};
-                    //TODO add items from database(saved calendar entries)
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-                    listView.setAdapter(adapter);
-                }else{
-                    String[] items = {"No Activity today!"};
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-                    listView.setAdapter(adapter);
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+
+
+                });
+
+
+                if(se_dates[0]!=null||se_dates[1]!=null) {
+                    if (date.after(se_dates[0]) && date.before(se_dates[1])) {
+                        String[] items = {"easy run", "Rick easy walk"};
+                        //TODO add items from database(saved calendar entries)
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+                        listView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+
+                    } else {
+                        String[] items = {"No Activity today!"};
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+                        listView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
-
 
 
 
