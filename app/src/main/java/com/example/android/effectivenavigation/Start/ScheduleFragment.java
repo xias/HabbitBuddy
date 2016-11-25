@@ -117,7 +117,7 @@ public class ScheduleFragment extends Fragment {
                 Log.v("start",getDate(datePicker1));
                 Log.v("end",getDate(datePicker2));
                 //Log.v("ToggleResults", Arrays.toString(flag));
-                Intent intent = new Intent(getActivity(),MainActivity.class);
+
                 String temp = null;
                 for (int j = 0; j<flag.length; j++) {
                     if (temp == null){
@@ -127,13 +127,20 @@ public class ScheduleFragment extends Fragment {
                     }
 
                 }
+
+                Log.v("******",name);
                 FBHandler.SetSchedule(name,cate,getDate(datePicker1),getDate(datePicker2),temp,intensity[0],type[0]);
+
+
+
+
 //                FBHandler.ActivityMatch(name,"jason");
+                Intent intent = new Intent(getActivity(),MainActivity.class);
                 Bundle mBundle = new Bundle();
                 mBundle.putString("pos",name);
                 intent.putExtras(mBundle);
                 startActivity(intent);
-                getActivity().finish();
+//                getActivity().finish();
 
 
             }

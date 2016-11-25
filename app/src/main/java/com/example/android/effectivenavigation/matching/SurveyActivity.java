@@ -20,6 +20,8 @@ import com.firebase.client.FirebaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import static com.example.android.effectivenavigation.MainActivity.name;
+
 public class SurveyActivity extends Activity {
     private int[] q_result = new int[7];
     private Button match;
@@ -39,7 +41,7 @@ public class SurveyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey);
         getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#118C4E")));
-        final String name= getIntent().getStringExtra("pos");
+        name= getIntent().getStringExtra("pos");
         s1 = (SeekBar) findViewById(R.id.seekBar2);
         s2 = (SeekBar) findViewById(R.id.seekBar3);
         s3 = (SeekBar) findViewById(R.id.seekBar4);
@@ -68,7 +70,7 @@ public class SurveyActivity extends Activity {
 
 
 //                FBHandler.Match(name);
-
+                Log.v("Survey",name);
                 FBHandler.IntakeResult(name,res);
                 Intent intent = new Intent(SurveyActivity.this,StartActivity.class);
                 Bundle mBundle = new Bundle();

@@ -267,6 +267,7 @@ public class SignUpActivity extends Activity implements LoaderCallbacks<Cursor> 
             Intent intent = new Intent(SignUpActivity.this,SurveyActivity.class);
             Bundle mBundle = new Bundle();
             mBundle.putString("pos",name);
+
             intent.putExtras(mBundle);
             startActivity(intent);
             finish();

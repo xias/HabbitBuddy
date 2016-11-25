@@ -560,6 +560,10 @@ public class FBHandler {
             @Override
             public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
 //                Log.v("cate",dataSnapshot.getValue(String.class));
+
+                String s = dataSnapshot.getValue(String.class);
+
+
                 type[0] =dataSnapshot.getValue(String.class);
                 final String[] numberExercise = type[0].split("\\|");
                 final String[] intensity = {null,null};
@@ -663,4 +667,85 @@ private static int getIntFromDay(String day){
     return res;
 }
 
+    public static void checkBothSchedule(final String who, final String[] table) {
+        final String[] display = {null,null};
+        final ArrayList<String> listTasks = new ArrayList<String>();
+        final String[] type = {null};
+        final Firebase userRef = mUsersRef.child(who).child("schedule").child("exercise").child("exist");
+        userRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+//                Log.v("cate",dataSnapshot.getValue(String.class));
+
+
+                type[0] =dataSnapshot.getValue(String.class);
+                final String[] numberExercise = type[0].split("\\|");
+                final String[] intensity = {null,null};
+                for (int i = 0;i<numberExercise.length;i++) {
+
+                    final Firebase userRef2 = mUsersRef.child(who).child("schedule").child("exercise").child(numberExercise[i]);
+                    final int finalI = i;
+                    userRef2.child("intensity").addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+                        @Override
+                        public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+
+                            intensity[finalI] =dataSnapshot.getValue(String.class);
+                            final String[] day = {null,null};
+                            userRef2.child("frequency").addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+                                @Override
+                                public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+
+                                    day[finalI] =dataSnapshot.getValue(String.class);
+                                    String[] temp = day[finalI].split("\\|");
+//                                    SimpleDateFormat dayInWeek = new SimpleDateFormat("u");
+                                    Calendar sCalendar = Calendar.getInstance();
+                                    String dayLongName = sCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+                                    Log.v("Day of ",dayLongName);
+
+                                    int currentDayInWeek = getIntFromDay(dayLongName);
+
+                                    if (Integer.parseInt(temp[currentDayInWeek-1])==1){
+
+                                        display[finalI] = intensity[finalI]+" "+ numberExercise[finalI];
+                                        listTasks.add(display[finalI]);
+                                        Log.v("Result", String.valueOf(display[finalI]));
+                                    }
+                                    Log.v("Result!!", String.valueOf(listTasks));
+                                    for (int i = 0; i<listTasks.size();i++){
+                                        table[i]=listTasks.get(i);
+                                    }
+
+
+
+                                }
+
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+
+                                }
+
+                            });
+
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+
+                    });
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
+
+
+    }
 }
