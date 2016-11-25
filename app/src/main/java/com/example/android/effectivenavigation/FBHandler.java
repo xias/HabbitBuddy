@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.android.effectivenavigation.adapter.FriendListAdapter;
 import com.example.android.effectivenavigation.adapter.ProfileAdapter;
 import com.example.android.effectivenavigation.adapter.TaskAdapter;
 import com.example.android.effectivenavigation.messenger.UserObject;
@@ -224,6 +225,64 @@ public class FBHandler {
         });
 
     }
+
+    public static void GetFriendList (final Activity activity, final ListView listView, String n) {
+        Firebase userRef = mRootRef.child("list");
+        userRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+//                final ArrayList<String> list = new ArrayList<String>();
+
+                String s = dataSnapshot.getValue(String.class);
+                if (s==null||s==""){
+//                    String[] a = {"no Buddies"};
+//                    ProfileAdapter adapter=new ProfileAdapter(activity,a,a);
+//                    listView.setAdapter(adapter);
+                }else {
+                    final String[] temp = s.split("\\|");
+                    final String[] data = new String[temp.length];
+                    for (int i = 0; i < temp.length; i++) {
+                        Firebase buddyRef = mUsersRef.child(temp[i]).child("profileImage");
+                        final int finalI = i;
+                        buddyRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
+                            @Override
+                            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                                data[finalI]=dataSnapshot.getValue(String.class);
+//                                list.add(dataSnapshot.getValue(String.class));
+                                if (finalI==temp.length-1) {
+                                    FriendListAdapter adapter=new FriendListAdapter(activity,temp,data);
+                                    listView.setAdapter(adapter);
+                                }
+
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+
+                        });
+                    }
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
+
+    }
+
+
+
 
     public static void Match(final String name) {
         Firebase mRef = mRootRef.child("list");

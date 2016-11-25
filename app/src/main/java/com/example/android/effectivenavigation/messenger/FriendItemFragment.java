@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,7 +73,9 @@ public class FriendItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_frienditem_list, container, false);
 
+        ListView listViewFriend = (ListView)view.findViewById(R.id.buddyList);
 
+        FBHandler.GetFriendList(getActivity(),listViewFriend,name);
 
 
 

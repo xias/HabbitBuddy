@@ -26,16 +26,23 @@
     </LinearLayout>
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/buddyList"
-        android:name="com.example.android.effectivenavigation.FriendItemFragment"
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        app:layoutManager="LinearLayoutManager"
-        tools:context="com.example.android.effectivenavigation.messenger.FriendItemFragment"
-        tools:listitem="@layout/fragment_frienditem" />
+        android:layout_height="0dp"
+        android:layout_weight="80"
+        android:layout_marginTop="12dp"
+        android:id="@+id/buddyList" />
+
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/buddyList"-->
+        <!--android:name="com.example.android.effectivenavigation.FriendItemFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--app:layoutManager="LinearLayoutManager"-->
+        <!--tools:context="com.example.android.effectivenavigation.messenger.FriendItemFragment"-->
+        <!--tools:listitem="@layout/fragment_frienditem" />-->
 
 
 </LinearLayout>
