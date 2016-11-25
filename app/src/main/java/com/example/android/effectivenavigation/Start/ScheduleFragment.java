@@ -140,7 +140,7 @@ public class ScheduleFragment extends Fragment {
                 mBundle.putString("pos",name);
                 intent.putExtras(mBundle);
                 startActivity(intent);
-//                getActivity().finish();
+                getActivity().finish();
 
 
             }

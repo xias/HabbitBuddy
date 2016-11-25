@@ -225,7 +225,7 @@ public class BuddyCenterFragment extends Fragment {
 
 
         final List<String> rems = new ArrayList<>(1);
-        rems.add("Play Pokemon Go if you need motivation. ");
+
 //        rems.add("Bring water when you walk. ");
 //        rems.add("Remember to update your friends after done walking!");
 //        rems.add("Bring your umbrella if it's windy and cloudy outside. ");

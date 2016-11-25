@@ -59,7 +59,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="33"
             android:layout_marginTop="12dp"
-            android:id="@+id/buddyTaskList" />
+            android:id="@+id/StartTipsList" />
     </LinearLayout>
 
     <LinearLayout
