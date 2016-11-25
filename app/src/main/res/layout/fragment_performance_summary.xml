@@ -24,30 +24,39 @@
         android:layout_margin="5dp" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:gravity="center"
 
         android:layout_width="match_parent"
         android:layout_height="fill_parent">
 
         <Button
+            android:text="Change Frequency"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/change_frequency_button"
+            android:layout_weight="33"
+            android:layout_margin="10dp"
+
+            />
+
+        <Button
             android:text="Add a new habit"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="20"
-            android:id="@+id/button2"
-            android:padding="10dp"
-            android:layout_margin="15dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="33"
+            android:id="@+id/addnew_button"
+            android:layout_margin="10dp"
+
 />
 
         <Button
-            android:text="Change Frequency"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="20"
-            android:id="@+id/button3"
-            android:layout_margin="15dp"
-            android:padding="10dp"/>
+            android:text="Log out"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="33"
+            android:id="@+id/logout_button"
+            android:layout_margin="10dp"
+           />
     </LinearLayout>
 
 </LinearLayout>

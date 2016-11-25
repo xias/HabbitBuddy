@@ -169,8 +169,8 @@ public class FBHandler {
 
     }
 
-    public static void GetBuddiesImages (final Activity activity, final ListView listView, String name) {
-        Firebase userRef = mUsersRef.child(name).child("buddy");
+    public static void GetBuddiesImages (final Activity activity, final ListView listView, String n) {
+        Firebase userRef = mUsersRef.child(n).child("buddy");
         userRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
             @Override
             public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
@@ -556,7 +556,7 @@ public class FBHandler {
         userRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
             @Override
             public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
-                Log.v("cate",dataSnapshot.getValue(String.class));
+//                Log.v("cate",dataSnapshot.getValue(String.class));
                 type[0] =dataSnapshot.getValue(String.class);
                 final String[] numberExercise = type[0].split("\\|");
                 final String[] intensity = {null,null};

@@ -77,7 +77,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * The {@link ViewPager} that will display the three primary sections of the app, one at a
      * time.
      */
-    public static String user_name = null;
+    public static String user_name = "default";
 
     public static FirebaseDatabase database;
     private static BuddyCenterFragment buddyCenterFragment;
@@ -145,13 +145,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 
 
-    public static String name;
+    public static String name= "default";
     public void onCreate(Bundle savedInstanceState) {
-
+        name= "default";
         //TODO go to login activity if not logged in
         super.onCreate(savedInstanceState);
         user_name = readLogin();
-        if (user_name == null || user_name.isEmpty()) {
+        if (user_name == null || user_name.equals("")) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();

@@ -47,7 +47,7 @@ public class SurveyActivity extends Activity {
         s5 = (SeekBar) findViewById(R.id.seekBar6);
         s6 = (SeekBar) findViewById(R.id.seekBar7);
         s7 = (SeekBar) findViewById(R.id.seekBar8);
-        match = (Button) findViewById(R.id.match_button);
+        match = (Button) findViewById(R.id.complete_button);
         match.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

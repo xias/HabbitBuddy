@@ -27,7 +27,7 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#118C4E")));
-        name= getIntent().getStringExtra("pos");
+//        name= getIntent().getStringExtra("pos");
         ImageButton imageButton = (ImageButton)findViewById(R.id.imageButtonExercise);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

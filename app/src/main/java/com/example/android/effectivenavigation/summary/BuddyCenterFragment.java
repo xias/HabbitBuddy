@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.effectivenavigation.MainActivity;
 import com.example.android.effectivenavigation.Start.StartActivity;
 import com.example.android.effectivenavigation.adapter.BuddiesArrayAdapter;
 import com.example.android.effectivenavigation.FBHandler;
@@ -138,7 +139,8 @@ public class BuddyCenterFragment extends Fragment {
 
 //        name= getActivity().getIntent().getStringExtra("pos");
         ListView list=(ListView)v.findViewById(R.id.buddies);
-        FBHandler.GetBuddiesImages(getActivity(),list,name);
+
+        FBHandler.GetBuddiesImages(getActivity(),list, MainActivity.name);
         Button matchB = (Button) v.findViewById(R.id.match_button);
         matchB.setOnClickListener(new View.OnClickListener() {
             @Override

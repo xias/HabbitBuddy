@@ -106,7 +106,7 @@ public class ScheduleFragment extends Fragment {
         FrequencyAdapter adapter = new FrequencyAdapter(list,flag, getActivity());
         listView.setAdapter(adapter);
 
-        name = getActivity().getIntent().getExtras().getString("pos");
+//        name = getActivity().getIntent().getExtras().getString("pos");
 
 
         Button finish = (Button) v.findViewById(R.id.buttonFinish);

@@ -1,11 +1,15 @@
 package com.example.android.effectivenavigation.summary;
 
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.android.effectivenavigation.R;
 import com.github.mikephil.charting.charts.LineChart;
@@ -14,6 +18,8 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 
@@ -61,6 +67,33 @@ public class PerformanceSummaryFragment extends Fragment {
 
         lineChart.setData(data);
         lineChart.animateY(5000);
+
+
+        Button logout = (Button) v.findViewById(R.id.logout_button);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getContext().openFileOutput("config.txt", Context.MODE_PRIVATE));
+                    outputStreamWriter.write("");
+                    outputStreamWriter.close();
+                }
+                catch (IOException e) {
+                    Log.e("Exception", "LOGOUT FAILED: " + e.toString());
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    getActivity().finishAffinity();
+                }
+
+
+            }
+        });
+
+
+
+
+
+
 
         return v;
     }
