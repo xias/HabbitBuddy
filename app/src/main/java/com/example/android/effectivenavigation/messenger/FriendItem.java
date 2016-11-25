@@ -37,7 +37,7 @@ public class FriendItem {
     public  String lName;
     public  int phoneNumber;
     public  int areaNumber;
-
+    public String pic;
 
     public FriendItem(String fName, String lName, int areaNumber, int phoneNumber) {
         this.fName = fName;

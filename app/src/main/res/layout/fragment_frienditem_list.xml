@@ -9,16 +9,12 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp">
 
-    <Button
-        android:text="Match!"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonPair" />
     <TextView
-        android:text="Match your buddy"
+        android:text="Name                 Phone Number"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:id="@+id/match_view"
+        android:gravity="center"
         android:textSize="24sp"
         android:layout_marginLeft="15dp" />
 
@@ -27,31 +23,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:text="Bob"
-            android:id="@+id/fn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:layout_weight="30"
-            />
-
-        <TextView
-            android:text="Marley"
-            android:id="@+id/ln"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:layout_weight="30"
-            />
-
-        <TextView
-            android:text="416 3529392"
-            android:id="@+id/phoneNum"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:layout_weight="40" />
     </LinearLayout>
 
 

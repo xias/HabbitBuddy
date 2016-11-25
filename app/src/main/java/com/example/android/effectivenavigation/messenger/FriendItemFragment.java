@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.effectivenavigation.FBHandler;
+import com.example.android.effectivenavigation.MainActivity;
 import com.example.android.effectivenavigation.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -65,32 +67,29 @@ public class FriendItemFragment extends Fragment {
         }
     }
 
-    private TextView match_view;
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_frienditem_list, container, false);
-        Button match = (Button)view.findViewById(R.id.buttonPair);
-        match_view = (TextView)view.findViewById(R.id.match_view);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.buddyList);
-        match.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
 
 
-            }
-        });
-        // Set the adapter
 
-            Context context = view.getContext();
-//            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyFriendItemRecyclerViewAdapter(FriendItem.FriendItem_List, mListener));
+
+
+//        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.buddyList);
+//
+//
+//        // Set the adapter
+//
+//            Context context = view.getContext();
+////            RecyclerView recyclerView = (RecyclerView) view;
+//            if (mColumnCount <= 1) {
+//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+//            } else {
+//                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+//            }
+//            recyclerView.setAdapter(new MyFriendItemRecyclerViewAdapter(FriendItem.FriendItem_List, mListener));
 
         return view;
     }

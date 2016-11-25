@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.example.android.effectivenavigation.R;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -34,6 +35,18 @@ public class PerformanceSummaryFragment extends Fragment {
     }
 
 
+    private void getLables(String startDate){
+//updates the lables for the summary
+
+    }
+
+    private void addEntries(){
+        //add the score date to entry array
+
+    }
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,31 +56,41 @@ public class PerformanceSummaryFragment extends Fragment {
 
 
         ArrayList<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(4f, 0));
-        entries.add(new Entry(8f, 1));
-        entries.add(new Entry(6f, 2));
-        entries.add(new Entry(2f, 3));
-        entries.add(new Entry(18f, 4));
-        entries.add(new Entry(9f, 5));
+        entries.add(new Entry(0, 0));
+        entries.add(new Entry(1, 1));
+        entries.add(new Entry(2, 2));
+        entries.add(new Entry(3, 3));
+        entries.add(new Entry(2, 4));
+        entries.add(new Entry(3, 5));
+        entries.add(new Entry(4, 6));
+        entries.add(new Entry(5, 7));
+        entries.add(new Entry(6, 8));
+        entries.add(new Entry(5, 9));
+        entries.add(new Entry(6, 10));
+        entries.add(new Entry(7, 11));
 
-        LineDataSet dataset = new LineDataSet(entries, "# of Calls");
+
+        LineDataSet dataset = new LineDataSet(entries, "My habit forming progress");
 
         ArrayList<String> labels = new ArrayList<String>();
-        labels.add("January");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
+        for(int i=0;i<28;i++){
+            labels.add("Day "+String.valueOf(i));
+        }
+
 
         LineData data = new LineData(labels, dataset);
         dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
         dataset.setDrawCubic(true);
         dataset.setDrawFilled(true);
 
-        lineChart.setData(data);
-        lineChart.animateY(5000);
 
+        lineChart.setData(data);
+        lineChart.animateY(1000);
+        YAxis y = lineChart.getAxisLeft();
+        y.setStartAtZero(true);
+        y.setAxisMaxValue(28);
+        lineChart.getAxisRight().setDrawLabels(false);
+        lineChart.getLegend().setEnabled(false);
 
         Button logout = (Button) v.findViewById(R.id.logout_button);
         logout.setOnClickListener(new View.OnClickListener() {
