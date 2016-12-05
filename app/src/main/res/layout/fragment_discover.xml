@@ -7,38 +7,26 @@
     >
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="10dp"
-
-        >
-
-
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="45dp">
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layout_weight="5">
 
                 <TextView
-                    android:text="Hi, Guest. What's up?"
+                    android:text="Your habit moment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView9"
-                    android:layout_margin="5dp"
+                    android:id="@+id/hiUser"
+                    android:layout_gravity="center"
+                    android:textColor="#4A71A5"
+                    android:textStyle="normal|bold"
+                    android:layout_margin="2dp"
+                    android:gravity="right"
                     android:layout_weight="3"
-                    android:textSize="30sp" />
+                    android:textSize="16sp" />
 
 
 
@@ -46,7 +34,7 @@
                     android:src="@drawable/add_icon"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-
+                    android:layout_gravity="center"
                     android:scaleType="centerInside"
 
                     android:id="@+id/addEntryButton"
@@ -55,26 +43,53 @@
 
             </LinearLayout>
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="33"
-                android:layout_marginTop="12dp"
-                android:id="@+id/recentTaskList" />
-        </LinearLayout>
-
-    </LinearLayout>
 
 
     <ListView
+        android:transcriptMode="alwaysScroll"
+
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="90"
-        android:background="@drawable/stroke_bg"
+        android:layout_weight="45"
+        android:background="@null"
 
-        android:layout_margin="16dp"
+
         android:padding="10dp"
         android:id="@+id/wallList" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:gravity="center">
+
+        <TextView
+            android:text="Why not match a buddy?"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:textColor="#4A71A5"
+            android:textStyle="normal|bold"
+            android:id="@+id/buddyTitle"
+            android:textSize="16sp" />
+
+
+
+    </LinearLayout>
+
+    <ListView
+        android:transcriptMode="alwaysScroll"
+
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="45"
+        android:background="@null"
+
+
+        android:padding="10dp"
+        android:id="@+id/wallListBuddy" />
 
 
 

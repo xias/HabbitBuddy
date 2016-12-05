@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="70"
+        android:textSize="24sp"
+        android:textColor="#7493BA"
+        android:text="No buddy yet"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="30"
+        android:id="@+id/match_buddy_button"
+        android:background="@drawable/lightbuttons"
+        android:text="Match Now"/>
+</LinearLayout>

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.effectivenavigation.R;
+import com.firebase.ui.FirebaseListAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class FriendListAdapter extends BaseAdapter{
     private String[] data;
     private static LayoutInflater inflater=null;
     private ArrayList<String> list = new ArrayList<String>();
+    private FirebaseListAdapter listAdapter = null;
+
 
     public FriendListAdapter(Activity a, String[] s, String[] d) {
         activity = a;
@@ -67,12 +70,17 @@ public class FriendListAdapter extends BaseAdapter{
 
 
         textView.setText("647"+"-"+seven);
-        Bitmap imageBitmap = null;
+//        Bitmap imageBitmap = null;
         try {
 
-            imageBitmap = decodeFromFirebaseBase64(data[position]);
-            image.setImageBitmap(imageBitmap);
-//            data[position]=null;
+//            imageBitmap = decodeFromFirebaseBase64(data[position]);
+
+
+
+
+            image.setImageBitmap(decodeFromFirebaseBase64(data[position]));
+            data[position]=null;
+            System.gc();
 //            imageBitmap.recycle();
 //            imageBitmap=null;
         } catch (IOException e) {

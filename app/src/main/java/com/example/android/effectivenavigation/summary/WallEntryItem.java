@@ -37,32 +37,36 @@ public class WallEntryItem {
 //        }
 //    }
 
-    public class AsyncLoadImage extends AsyncTask<String, String, Bitmap>{
-        private final String TAG = "AsyncLoadImage";
-
-        private Bitmap result = null;
-        public Bitmap getResult() {
-            return result;
-        }
-
-
-        @Override
-        protected Bitmap doInBackground(String... params){
-            Bitmap bitmap = null;
-            try{
-                URL url = new URL(params[0]);
-                bitmap = BitmapFactory.decodeStream((InputStream)url.getContent());
-            }catch(IOException e){
-                Log.e("url error", "url failed: "+ params[0].toString());
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap){
-            this.result = bitmap;
-        }
-    }
+//    public class AsyncLoadImage extends AsyncTask<String, String, Bitmap>{
+//        private final String TAG = "AsyncLoadImage";
+//
+//        private Bitmap result = null;
+//        public Bitmap getResult() {
+//            return result;
+//        }
+//
+//
+//        @Override
+//        protected Bitmap doInBackground(String... params){
+//            Bitmap bitmap = null;
+//            try{
+//                URL url = new URL(params[0]);
+//                bitmap = BitmapFactory.decodeStream((InputStream)url.getContent());
+//
+//            }catch(IOException e){
+//                Log.e("url error", "url failed: "+ params[0].toString());
+//            }
+//            return bitmap;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Bitmap bitmap){
+//            this.result = bitmap;
+//
+//
+//
+//        }
+//    }
 
 
 

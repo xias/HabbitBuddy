@@ -28,6 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.example.android.effectivenavigation.MainActivity.name;
+
 public class WallEntryActivity  extends Activity {
     private static final int WRITE_EXTERNAL_STORAGE = 1212;
     private static final int IMAGE_SCALE = 240;
@@ -53,8 +55,8 @@ public class WallEntryActivity  extends Activity {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMddHHmmss");
 
-        long strDate = Long.parseLong(simpleDateFormat.format(c.getTime()));
-//        Log.v("test all date",String.valueOf(strDate));
+        final String postTime = String.valueOf(Long.parseLong(simpleDateFormat.format(c.getTime())));
+
 
         post.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +66,7 @@ public class WallEntryActivity  extends Activity {
                 if(m.isEmpty() || t.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Please enter title and comment!", Toast.LENGTH_LONG);
                 }else{
-                    Firebase postRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/posts");
+                    Firebase postRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+name+"/post");
                     //TODO push item to firebase, upload image with url returned
                     if(bitmapString == null){
                         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -74,7 +76,7 @@ public class WallEntryActivity  extends Activity {
                         bitmap.compress(Bitmap.CompressFormat.PNG, 10, baos);
                         bitmapString = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
                     }
-                    postRef.push().setValue(new WallEntryItem(bitmapString, m, 30, t));
+                    postRef.child(postTime).setValue(new WallEntryItem(bitmapString, m, 30, t));
                     bitmapString = null;
                     finish();
                 }
@@ -87,7 +89,7 @@ public class WallEntryActivity  extends Activity {
                 Toast.makeText(getApplicationContext(),"clicked add pic", Toast.LENGTH_LONG);
                 Log.d("pic", "pressed button");
 
-                takePhoto(v);
+                viewPhoto(v);
 
             }
         });
@@ -101,7 +103,7 @@ public class WallEntryActivity  extends Activity {
     private static final int RESULT_GALLERY = 5;
     private static Uri imageUri;
 
-    public void takePhoto(View view) {
+    public void viewPhoto(View view) {
 //        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         Intent galleryIntent = new Intent(

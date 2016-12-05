@@ -18,7 +18,8 @@ package com.example.android.effectivenavigation;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -63,6 +64,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
+
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, FriendItemFragment.OnListFragmentInteractionListener {
 
     /**
@@ -87,10 +89,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     private static Fragment dFragment=null;
 
     private static Fragment discoverFragment = null;
-
+    private Fragment mContent;
+    private FragmentManager mFragmentMan;
 
 
     ViewPager mViewPager;
+
 
     public void onListFragmentInteraction(FriendItem friendItem) {
         final String number = friendItem.getPhoneString();
@@ -158,7 +162,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
         else{
                 setContentView(R.layout.activity_main);
-            getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#118C4E")));
+            getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0089D0")));
             name = user_name;
     //        name= getIntent().getStringExtra("pos");
 
@@ -184,7 +188,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             // Specify that we will be displaying tabs in the action bar.
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-
+//            actionBar.setStackedBackgroundDrawable(getResources().getDrawable(
+//                    R.drawable.tab));
+            actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color.parseColor("#0089D0")));
             // Set up the ViewPager, attaching the adapter and setting up a listener for when the
             // user swipes between sections.
             mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -198,6 +204,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     actionBar.setSelectedNavigationItem(position);
                 }
             });
+
 
             // For each of the sections in the app, add a tab to the action bar.
             for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
@@ -214,20 +221,44 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         }
     }
 
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
+//    @Override
+//    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+//    }
+//
+//    @Override
+//    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+//        // When the given tab is selected, switch to the corresponding page in the ViewPager.
+//        // Set the color of the top bar
+//
+//    }
+
+//    public void switchContent(Fragment from, Fragment to) {
+//        if (!mContent.equals(to)) {
+//            mContent = to;
+//            FragmentTransaction transaction = mFragmentMan.beginTransaction();
+//            if (!to.isAdded()) {	// 先判断是否被add过
+//                transaction.hide(from).add(R.id., to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+//            } else {
+//                transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
+//            }
+//        }
+//    }
+
 
     @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // When the given tab is selected, switch to the corresponding page in the ViewPager.
+    public void onTabSelected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
         mViewPager.setCurrentItem(tab.getPosition());
-        // Set the color of the top bar
+//        tab.setCustomView(R.layout.custom);
 
     }
 
     @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
 
     }
 
@@ -245,6 +276,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public Fragment getItem(int i) {
+
+
+
             switch (i) {
                 case 0:
                     // The first section of the app is the most interesting -- it offers
@@ -253,19 +287,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                     if(buddyCenterFragment == null) {
                         buddyCenterFragment = new BuddyCenterFragment();
                     }
-                        return buddyCenterFragment;
-                case 1:
-                    if(cFragment == null) {
-                        cFragment = new CalendarFragment();
-
-                        Bundle args = new Bundle();
-                        args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
-                        cFragment.setArguments(args);
-                    }
 //                    fragmentManager.popBackStack();
 
-                    return cFragment;
-                case 2:
+                    return buddyCenterFragment;
+                case 1:
 //                    if(fFragment == null) {
 //                        fFragment = new FriendItemFragment();
 //                    }
@@ -276,7 +301,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                         discoverFragment = new DiscoverFragment();
 
                     }
+//                    fragmentManager.popBackStack();
+
                     return discoverFragment;
+                case 2:
+                    if(cFragment == null) {
+                        cFragment = new CalendarFragment();
+
+                        Bundle args = new Bundle();
+                        args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
+                        cFragment.setArguments(args);
+                    }
+//                    fragmentManager.popBackStack();
+
+                    return cFragment;
+
 
                 case 3:
                     if( fFragment== null) {
@@ -321,9 +360,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 case 0:
                     return "Habit Center";
                 case 1:
-                    return "Habit Calendar";
-                case 2:
                     return "Habit Hangout";
+                case 2:
+                    return "Habit schedule";
                 case 3:
                     return "Messaging";
                 case 4:
@@ -391,6 +430,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 return rootView;
             }
         }
+
+    public void message() {
+
+    }
 
 
 }

@@ -38,6 +38,8 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.android.effectivenavigation.MainActivity.name;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -68,7 +70,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#118C4E")));
+        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0089D0")));
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -95,13 +97,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                 mname = mEmailView.getEditableText().toString();
                 password = mPasswordView.getEditableText().toString();
-                Log.v("test",mname+password);
+//                Log.v("test",mname+password);
                 MainActivity.user_name = mname;
                 writeLogin(mname);
+                name=mname;
+//                Log.v("name", name+"0"+mname);
                 Bundle mBundle = new Bundle();
                 mBundle.putString("pos",mname);
                 intent.putExtras(mBundle);
                 startActivity(intent);
+
             }
         });
 
@@ -111,6 +116,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 

@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
+import static com.example.android.effectivenavigation.MainActivity.name;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,6 +99,7 @@ public class PerformanceSummaryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
+                    name = null;
                     OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getContext().openFileOutput("config.txt", Context.MODE_PRIVATE));
                     outputStreamWriter.write("");
                     outputStreamWriter.close();

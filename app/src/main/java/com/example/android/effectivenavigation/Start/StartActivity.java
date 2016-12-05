@@ -27,9 +27,9 @@ public class StartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#118C4E")));
+        getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#0089D0")));
 //        name= getIntent().getStringExtra("pos");
-        ListView listView =(ListView)findViewById(R.id.StartTipsList);
+//        ListView listView =(ListView)findViewById(R.id.StartTipsList);
 
 //        listView.setAdapter();
         ImageButton imageButton = (ImageButton)findViewById(R.id.imageButtonExercise);

@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.effectivenavigation.FBHandler;
@@ -27,17 +28,21 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import static com.example.android.effectivenavigation.MainActivity.name;
 
 
 public class CalendarFragment extends Fragment {
 
-
+    private TextView twoTasks;
+    private TextView buddyTasks;
     CalendarView calendarView;
     ListView taskView;
     ArrayList<String> data = new ArrayList<>();
@@ -59,7 +64,7 @@ public class CalendarFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View mView = inflater.inflate(R.layout.fragment_calendar, container, false);
         calendarView = (CalendarView) mView.findViewById(R.id.calView);
-        taskView = (ListView) mView.findViewById(R.id.dailyTaskView);
+//        taskView = (ListView) mView.findViewById(R.id.dailyTaskView);
         calendarView.setDate(System.currentTimeMillis());
         /*
         *  int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -80,72 +85,97 @@ public class CalendarFragment extends Fragment {
         });
 //        Toast.makeText(getActivity(), String.valueOf(System.currentTimeMillis()), Toast.LENGTH_SHORT).show();
 
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
+
+//        FBHandler.checkYourScheduleForCal(twoTasks,selectedDate);
+//        FBHandler.checkBuddyScheduleForCal(buddyTasks,selectedDate);
+        twoTasks = (TextView) mView.findViewById(R.id.syncTasks);
+        buddyTasks = (TextView) mView.findViewById(R.id.syncTasksBuddy);
+        calendarView.setOnDateChangeListener( new CalendarView.OnDateChangeListener() {
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                Calendar calendar = Calendar.getInstance();
-                final Date date = new Date(year,month,dayOfMonth);
-                calendar.setTime(date);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                final ListView listView = (ListView) mView.findViewById(R.id.dailyTaskView);
 
-//                String[] items = {null, null};
-//                FBHandler.checkBothSchedule(name,items);
-//                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-//                listView.setAdapter(adapter);
-                Firebase mRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/schedule");
-                Firebase cRef = mRef.child("s93").child("start_end");
-                final Date[] se_dates = new Date[2];
-                cRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        String s = dataSnapshot.getValue(String.class);
-                        String[] dates = s.split(" ");
-                        String[] dmy = dates[0].split("/");
-                        String[] end_dmy = dates[1].split("/");
-                        se_dates[0] = new Date(Integer.valueOf(dmy[2]),Integer.valueOf(dmy[0]),Integer.valueOf(dmy[1]));
-                        se_dates[1] = new Date(Integer.valueOf(end_dmy[2]),Integer.valueOf(end_dmy[0]),Integer.valueOf(end_dmy[1]));
-                        if(date.after(se_dates[0]) &&  date.before(se_dates[1])   ) {
-                            String[] items = {"easy run", "Rick easy walk"};
-                            //TODO add items from database(saved calendar entries)
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-                            listView.setAdapter(adapter);
-                        }else{
-                            String[] items = {"No Activity today!"};
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-                            listView.setAdapter(adapter);
-                        }
-                    }
+                String select = year+"-"+(month+1)+ "-"+dayOfMonth;
+//                Log.v("select",select);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date selectedDate = null;
 
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-
-
-                });
-
-
-                if(se_dates[0]!=null||se_dates[1]!=null) {
-                    if (date.after(se_dates[0]) && date.before(se_dates[1])) {
-                        String[] items = {"easy run", "Rick easy walk"};
-                        //TODO add items from database(saved calendar entries)
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-                        listView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-
-                    } else {
-                        String[] items = {"No Activity today!"};
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
-                        listView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                    }
+                try {
+                    selectedDate = sdf.parse(select);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
+                FBHandler.checkYourScheduleForCal(twoTasks,selectedDate);
+                FBHandler.checkBuddyScheduleForCal(buddyTasks,selectedDate);
 
-
-
-            }
+            }//met
         });
+
+//        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+//            @Override
+//            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+//                Log.v("select",month+"-"+dayOfMonth+"-"+year);
+//                Calendar calendar = Calendar.getInstance();
+//                final Date date = new Date(year,month,dayOfMonth);
+//                calendar.setTime(date);
+//                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                final ListView listView = (ListView) mView.findViewById(R.id.dailyTaskView);
+//
+////                String[] items = {null, null};
+////                FBHandler.checkBothSchedule(name,items);
+////                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+////                listView.setAdapter(adapter);
+//                Firebase mRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/schedule");
+//                Firebase cRef = mRef.child("s93").child("start_end");
+//                final Date[] se_dates = new Date[2];
+//                cRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                        String s = dataSnapshot.getValue(String.class);
+//                        String[] dates = s.split(" ");
+//                        String[] dmy = dates[0].split("/");
+//                        String[] end_dmy = dates[1].split("/");
+//                        se_dates[0] = new Date(Integer.valueOf(dmy[2]),Integer.valueOf(dmy[0]),Integer.valueOf(dmy[1]));
+//                        se_dates[1] = new Date(Integer.valueOf(end_dmy[2]),Integer.valueOf(end_dmy[0]),Integer.valueOf(end_dmy[1]));
+//                        if(date.after(se_dates[0]) &&  date.before(se_dates[1])   ) {
+//                            String[] items = {"easy run", "Rick easy walk"};
+//                            //TODO add items from database(saved calendar entries)
+//                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+//                            listView.setAdapter(adapter);
+//                        }else{
+//                            String[] items = {"No Activity today!"};
+//                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+//                            listView.setAdapter(adapter);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(FirebaseError firebaseError) {
+//
+//                    }
+//
+//
+//                });
+//
+//
+//                if(se_dates[0]!=null||se_dates[1]!=null) {
+//                    if (date.after(se_dates[0]) && date.before(se_dates[1])) {
+//                        String[] items = {"easy run", "Rick easy walk"};
+//                        //TODO add items from database(saved calendar entries)
+//                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+//                        listView.setAdapter(adapter);
+//                        adapter.notifyDataSetChanged();
+//
+//                    } else {
+//                        String[] items = {"No Activity today!"};
+//                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items);
+//                        listView.setAdapter(adapter);
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                }
+//
+//
+//
+//            }
+//        });
 
 
 

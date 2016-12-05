@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.example.android.effectivenavigation.MainActivity.name;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link BuddyCenterFragment#newInstance} factory method to
@@ -48,9 +51,12 @@ public class DiscoverFragment extends Fragment {
 
 
     private ListView wall;
-    private ListView task;
+    private ListView wallBuddy;
     private ListView reminder;
-
+    private FirebaseListAdapter<WallEntryItem> imAdapter=null;
+    private FirebaseListAdapter<WallEntryItem> imAdapter2=null;
+    private TextView textViewBuddy;
+    private TextView textViewUser;
 
     public DiscoverFragment() {
         // Required empty public constructor
@@ -73,6 +79,15 @@ public class DiscoverFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+//
+//    @Override
+//    public void onPause(){
+//        super.onPause();
+//        imAdapter = null;
+//    }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,7 +130,6 @@ public class DiscoverFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_discover, container, false);
 
 
-        task = (ListView) v.findViewById(R.id.recentTaskList);
 
         Calendar c = Calendar.getInstance();
 //        SimpleDateFormat sdf = new SimpleDateFormat("EEE  MMM d, ''yy");
@@ -124,11 +138,6 @@ public class DiscoverFragment extends Fragment {
 //        String strDate = sdf.format(c.getTime());
         String strDate = date.format(c.getTime());
         String strMonth = month.format(c.getTime());
-
-
-        ReminderAdapter taskAdapter = new ReminderAdapter(tasks, android.R.drawable.ic_input_add);
-//        ArrayAdapter<String> taskAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, tasks);
-        task.setAdapter(taskAdapter);
 
         ImageButton newEnt = (ImageButton) v.findViewById(R.id.addEntryButton);
         newEnt.setOnClickListener(new View.OnClickListener() {
@@ -158,34 +167,102 @@ public class DiscoverFragment extends Fragment {
 
 
         wall = (ListView) v.findViewById(R.id.wallList);
-        Firebase postRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/posts");
 
-        FirebaseListAdapter<WallEntryItem> adapter = new FirebaseListAdapter<WallEntryItem>(this.getActivity(), WallEntryItem.class, R.layout.record_entry, postRef) {
+        Firebase postRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+name+"/post");
+
+
+
+            imAdapter = new FirebaseListAdapter<WallEntryItem>(this.getActivity(), WallEntryItem.class, R.layout.record_entry, postRef) {
+                @Override
+                protected void populateView(View view, WallEntryItem wallEntryItem) {
+                    ImageView im = (ImageView) view.findViewById(R.id.wallPostImage);
+                    TextView name = (TextView) view.findViewById(R.id.wallName);
+                    TextView mes = (TextView) view.findViewById(R.id.wallMes);
+                    ProgressBar p = (ProgressBar) view.findViewById(R.id.wallProgress);
+
+                    String bitmapstring = wallEntryItem.getPic();
+                    try {
+                        Bitmap imageBitmap = decodeFromFirebaseBase64(bitmapstring);
+                        im.setImageBitmap(imageBitmap);
+                        bitmapstring = null;
+
+                        System.gc();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    name.setText(wallEntryItem.getTitle());
+                    mes.setText(wallEntryItem.getContent());
+                    p.setProgress(wallEntryItem.getProgress());
+                }
+            };
+
+
+
+        wall.setAdapter(imAdapter);
+        wallBuddy = (ListView) v.findViewById(R.id.wallListBuddy);
+        textViewBuddy = (TextView) v.findViewById(R.id.buddyTitle);
+        textViewUser = (TextView) v.findViewById(R.id.hiUser);
+        textViewUser.setText("Hi, "+name+"! Why not add your moment?");
+        Firebase findBuddyRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+name+"/buddy");
+
+        findBuddyRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
             @Override
-            protected void populateView(View view, WallEntryItem wallEntryItem) {
-                ImageView im = (ImageView) view.findViewById(R.id.wallPostImage);
-                TextView name = (TextView) view.findViewById(R.id.wallName);
-                TextView mes = (TextView) view.findViewById(R.id.wallMes);
-                ProgressBar p = (ProgressBar) view.findViewById(R.id.wallProgress);
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                String BuddyName = dataSnapshot.getValue(String.class);
 
-                String bitmapstring = wallEntryItem.getPic();
-                try {
-                    Bitmap imageBitmap = decodeFromFirebaseBase64(bitmapstring);
-                    im.setImageBitmap(imageBitmap);
+                if (BuddyName == null){
+                    textViewBuddy.setText("Why not match a buddy?");
+                    wallBuddy.setVisibility(View.GONE);
+                }
+                else {
+                    wallBuddy.setVisibility(View.VISIBLE);
+                    Log.v("buddy",BuddyName);
+                    textViewBuddy.setText("Moments of your buddy "+BuddyName+" :");
+                    Firebase postRef2 = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+BuddyName+"/post");
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                        imAdapter2 = new FirebaseListAdapter<WallEntryItem>(getActivity(), WallEntryItem.class, R.layout.record_entry, postRef2) {
+                            @Override
+                            protected void populateView(View view, WallEntryItem wallEntryItem) {
+                                ImageView im = (ImageView) view.findViewById(R.id.wallPostImage);
+                                TextView name = (TextView) view.findViewById(R.id.wallName);
+                                TextView mes = (TextView) view.findViewById(R.id.wallMes);
+                                ProgressBar p = (ProgressBar) view.findViewById(R.id.wallProgress);
+
+                                String bitmapstring = wallEntryItem.getPic();
+                                try {
+                                    Bitmap imageBitmap = decodeFromFirebaseBase64(bitmapstring);
+                                    im.setImageBitmap(imageBitmap);
+                                    bitmapstring = null;
+
+                                    System.gc();
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                name.setText(wallEntryItem.getTitle());
+                                mes.setText(wallEntryItem.getContent());
+                                p.setProgress(wallEntryItem.getProgress());
+                            }
+                        };
+
+
+
+                    wallBuddy.setAdapter(imAdapter2);
                 }
 
-                name.setText(wallEntryItem.getTitle());
-                mes.setText(wallEntryItem.getContent());
-                p.setProgress(wallEntryItem.getProgress());
+
             }
-        };
 
-        wall.setAdapter(adapter);
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
 
+            }
 
+        });
 
 
 
@@ -197,33 +274,7 @@ public class DiscoverFragment extends Fragment {
 //        wall.setAdapter(wallAdapter);
 
 
-        Firebase wallRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/posts");
-        wallRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
 
 
 
@@ -238,10 +289,16 @@ public class DiscoverFragment extends Fragment {
         return v;
     }
 
-
+public static byte[] temp;
     public static Bitmap decodeFromFirebaseBase64(String image) throws IOException {
-        byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
+        BitmapFactory.Options op = new BitmapFactory.Options();
+        op.inSampleSize = 8;
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inSampleSize = 8;
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.comp,options);
+
+        temp = android.util.Base64.decode(image, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(temp, 0, temp.length, op);
     }
 
 
@@ -249,37 +306,37 @@ public class DiscoverFragment extends Fragment {
 
 
 
-
-    public class WallAdapter extends ArrayAdapter<WallEntryItem> {
-        public WallAdapter() {
-
-            super(getActivity(), R.layout.record_entry, WallEntryItem.wallEntryItemList);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            View row = convertView;
-            if (row == null) {
-                LayoutInflater layoutInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                row = layoutInflater.inflate(R.layout.record_entry, parent, false);
-            }
-
-            WallEntryItem wallEntryItem = WallEntryItem.wallEntryItemList.get(position);
-            ImageView im = (ImageView) row.findViewById(R.id.wallPostImage);
-            TextView name = (TextView) row.findViewById(R.id.wallName);
-            TextView mes = (TextView) row.findViewById(R.id.wallMes);
-            ProgressBar p = (ProgressBar) row.findViewById(R.id.wallProgress);
-
-//            im.setImageBitmap(wallEntryItem.getPic());
-            name.setText(wallEntryItem.getTitle());
-            mes.setText(wallEntryItem.getContent());
-            p.setProgress(wallEntryItem.getProgress());
-
-            return row;
+//
+//    public class WallAdapter extends ArrayAdapter<WallEntryItem> {
+//        public WallAdapter() {
+//
+//            super(getActivity(), R.layout.record_entry, WallEntryItem.wallEntryItemList);
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//
+//            View row = convertView;
+//            if (row == null) {
+//                LayoutInflater layoutInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                row = layoutInflater.inflate(R.layout.record_entry, parent, false);
 //            }
-        }
-    }
+//
+//            WallEntryItem wallEntryItem = WallEntryItem.wallEntryItemList.get(position);
+//            ImageView im = (ImageView) row.findViewById(R.id.wallPostImage);
+//            TextView name = (TextView) row.findViewById(R.id.wallName);
+//            TextView mes = (TextView) row.findViewById(R.id.wallMes);
+//            ProgressBar p = (ProgressBar) row.findViewById(R.id.wallProgress);
+//
+////            im.setImageBitmap(wallEntryItem.getPic());
+//            name.setText(wallEntryItem.getTitle());
+//            mes.setText(wallEntryItem.getContent());
+//            p.setProgress(wallEntryItem.getProgress());
+//
+//            return row;
+////            }
+//        }
+//    }
 
 
 

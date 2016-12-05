@@ -57,8 +57,8 @@
     <string name="questionnaire1">How motivated are you to form or sustain a healthy habit? </string>
     <string name="questionnaire2">How often would you like to engage in your healthy habit </string>
     <string name="questionnaire3">How often would you like to communicate with your buddy?</string>
-    <string name="questionnaire4">How likely are you to provide support and social praise to your buddy? </string>
-    <string name="questionnaire5">How much do you think forming or sustaining a healthy habit will satisfy you?  </string>
+    <string name="questionnaire4">7. How likely are you to provide support and social praise to your buddy? </string>
+    <string name="questionnaire5">8. How much do you think forming or sustaining a healthy habit will satisfy you?  </string>
     <string name="questionnaire6">How much do you think having a habit buddy will help you reach your goal?  </string>
     <string name="questionnaire7">How much are you committed to HabitBuddy? </string>
 

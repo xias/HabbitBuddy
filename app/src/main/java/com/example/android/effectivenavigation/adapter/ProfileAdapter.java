@@ -24,12 +24,12 @@ import static com.example.android.effectivenavigation.summary.DiscoverFragment.d
 public class ProfileAdapter extends BaseAdapter {
 
     private Activity activity;
-    private String[] names;
-    private String[] data;
+    private String names;
+    private String data;
     private static LayoutInflater inflater=null;
-    private ArrayList<String> list = new ArrayList<String>();
 
-    public ProfileAdapter(Activity a, String[] s, String[] d) {
+
+    public ProfileAdapter(Activity a, String s, String d) {
         activity = a;
         names=s;
         data = d;
@@ -37,7 +37,7 @@ public class ProfileAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return names.length;
+        return 1;
     }
 
     public Object getItem(int position) {
@@ -56,12 +56,12 @@ public class ProfileAdapter extends BaseAdapter {
 
         TextView text=(TextView)vi.findViewById(R.id.text);;
         ImageView image=(ImageView)vi.findViewById(R.id.image);
-        text.setText(names[position]);
+        text.setText(names);
 
         Bitmap imageBitmap = null;
         try {
 
-            imageBitmap = decodeFromFirebaseBase64(data[position]);
+            imageBitmap = decodeFromFirebaseBase64(data);
             image.setImageBitmap(imageBitmap);
 //            data[position]=null;
 //            imageBitmap.recycle();

@@ -7,6 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -35,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
@@ -52,10 +58,10 @@ public class BuddyCenterFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static  ArrayList<String> tasks;
-    private ListView wall;
+    private ListView buddyView;
     private ListView recentTask;
     private ListView reminder;
-
+    private CheckBox taskCheck;
 
     public BuddyCenterFragment() {
         // Required empty public constructor
@@ -135,19 +141,130 @@ public class BuddyCenterFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_buddy_center, container, false);
+        final View v = inflater.inflate(R.layout.fragment_habitcenter, container, false);
 
-//        name= getActivity().getIntent().getStringExtra("pos");
-        ListView list=(ListView)v.findViewById(R.id.buddies);
+        final TextView textView = (TextView) v.findViewById(R.id.titleBuddy);
+        buddyView =(ListView)v.findViewById(R.id.buddies_container);
+        final Button matchB = (Button) v.findViewById(R.id.matchBuddy_button);
+        taskCheck = (CheckBox) v.findViewById(R.id.todayTasks);
+        taskCheck.setOnClickListener(new View.OnClickListener() {
 
-        FBHandler.GetBuddiesImages(getActivity(),list, MainActivity.name);
-        Button matchB = (Button) v.findViewById(R.id.match_button);
-        matchB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FBHandler.Match(name);
+                //is chkIos checked?
+                if (((CheckBox) v).isChecked()) {
+                    String today = new SimpleDateFormat("MMMM d, yyyy").format(Calendar.getInstance().getTime());
+                    FBHandler.addRecord(today);
+//                    taskCheck.setEnabled(false);
+                }
+                else {
+                    String today = new SimpleDateFormat("MMMM d, yyyy").format(Calendar.getInstance().getTime());
+                    FBHandler.deleteRecord(today);
+                }
+
+
             }
         });
+
+        FBHandler.checkUserSchedule(taskCheck);
+
+        final Firebase requestFirebase = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+name+"/buddy");
+        requestFirebase.addValueEventListener(new com.firebase.client.ValueEventListener() {
+            @Override
+            public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
+                final String info = dataSnapshot.getValue(String.class);
+
+                if (info==null||info==""){
+
+                    buddyView.setVisibility(View.GONE);
+                    textView.setText("No Buddy Yet");
+                    matchB.setText("match");
+                    Log.v("dataSnap","null");
+                    matchB.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+
+//                matchB.setVisibility(View.GONE);
+//                matchB.setVisibility(View.VISIBLE);
+
+
+
+
+                            FBHandler.Match(name,v,getActivity(),buddyView);
+
+//                            Log.v("View", String.valueOf(v));
+                        }
+                    });
+                }else {
+                    Log.v("dataSnap",info);
+                    buddyView.setVisibility(View.VISIBLE);
+                    textView.setText("Buddy :");
+                    FBHandler.GetBuddiesImages(getActivity(),v,name,buddyView);
+                    matchB.setText("un-buddy");
+                    matchB.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            final Firebase deleteFirebase = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+info+"/buddy");
+                            deleteFirebase.setValue(null);
+                        requestFirebase.setValue(null);
+                        Log.v("unbu","unbu");
+//                matchB.setVisibility(View.GONE);
+//                matchB.setVisibility(View.VISIBLE);
+
+//                        FBHandler.addInPool(info);
+                            FBHandler.addInPoolTwo(name,info);
+
+//                            Log.v("View", String.valueOf(v));
+                        }
+                    });
+                }
+
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+
+        });
+
+
+
+
+
+//        FBHandler.checkHasBuddy(name,textView);
+
+//        name= getActivity().getIntent().getStringExtra("pos");
+//        if (hasBuddy[0]==null) {
+//            if (hasRecommend[0]==null&&hasRequest[0]==null){
+//                DefaultFragment defaultFragment = new DefaultFragment();
+//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//
+//// Replace whatever is in the fragment_container view with this fragment,
+//// and add the transaction to the back stack if needed
+//
+//                transaction.replace(R.id.fragment_container, defaultFragment);
+//
+//
+//                transaction.commit();
+//            }
+//            else if (hasRecommend[0]!=null) {
+//                RecommendFragment recommendFragment = new RecommendFragment();
+//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//
+//// Replace whatever is in the fragment_container view with this fragment,
+//// and add the transaction to the back stack if needed
+//
+//                transaction.replace(R.id.fragment_container, recommendFragment);
+//
+//
+//                transaction.commit();
+//            }else {
+//
+//            }
+//        }
+
+
+
 
 
 
@@ -170,11 +287,14 @@ public class BuddyCenterFragment extends Fragment {
 //        SimpleDateFormat sdf = new SimpleDateFormat("EEE  MMM d, ''yy");
         SimpleDateFormat month = new SimpleDateFormat("MMM");
         SimpleDateFormat date = new SimpleDateFormat("dd");
+        Calendar calendar = Calendar.getInstance();
+        String day = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
 //        String strDate = sdf.format(c.getTime());
         String strDate = date.format(c.getTime());
         String strMonth = month.format(c.getTime());
         TextView monthView = (TextView)v.findViewById(R.id.textMon);
         TextView dateView = (TextView)v.findViewById(R.id.textDate);
+        TextView dayView = (TextView) v.findViewById(R.id.dayOfWeek);
         Button startButton = (Button) v.findViewById(R.id.startNewButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,6 +310,7 @@ public class BuddyCenterFragment extends Fragment {
         });
         monthView.setText(strMonth);
         dateView.setText(strDate);
+        dayView.setText(day);
         final ImageView imageView = (ImageView) v.findViewById(R.id.showImage);
 
         Runnable runnable1 = new Runnable() {
@@ -423,6 +544,7 @@ public class BuddyCenterFragment extends Fragment {
 
             TextView name1 = (TextView) row1.findViewById(R.id.reminderTextview);
             ImageView im = (ImageView) row1.findViewById(R.id.remIcon);
+            name1.setTextSize(17.0f);
             name1.setText(it.get(position));
             im.setImageResource(ic);
             return row1;

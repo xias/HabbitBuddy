@@ -71,7 +71,7 @@ public class SurveyActivity extends Activity {
 
 //                FBHandler.Match(name);
                 Log.v("Survey",name);
-                FBHandler.IntakeResult(name,res);
+//                FBHandler.IntakeResult(name,res);
                 Intent intent = new Intent(SurveyActivity.this,StartActivity.class);
                 Bundle mBundle = new Bundle();
                 mBundle.putString("pos",name);

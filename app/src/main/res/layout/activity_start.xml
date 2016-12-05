@@ -4,12 +4,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/schedule_container"
-    android:background="#C1E1A6">
+    android:background="#E5EAEE">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="30"
+        android:layout_weight="20"
 
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
@@ -41,25 +41,37 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="30"
+        android:layout_weight="20"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/rounded_corner">
+        android:background="@drawable/rounded_corner"
+        >
         <TextView
+            android:layout_gravity="center"
             android:text="Tips:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:id="@+id/textView_buddy"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="6dp"
-            android:layout_weight="1" />
-        <ListView
+            android:layout_weight="20" />
+        <!--<ListView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:layout_weight="33"-->
+            <!--android:layout_marginTop="12dp"-->
+            <!--android:id="@+id/StartTipsList" />-->
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="33"
-            android:layout_marginTop="12dp"
-            android:id="@+id/StartTipsList" />
+            android:layout_height="0dp"
+            android:layout_weight="80"
+
+            android:text="Choosing One:
+
+
+Pick one healthy habit to start. Choosing one helps you to focus, feel more successful and can, unwittingly, create other positive changes.
+"/>
     </LinearLayout>
 
     <LinearLayout
@@ -82,39 +94,56 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="33"
+            android:layout_weight="30"
             android:orientation="horizontal">
             <ImageButton
                 android:layout_width="0dp"
 
                 android:layout_height="match_parent"
 
-                android:src="@drawable/embodied_practices"
+                android:src="@drawable/logo1"
                 android:id="@+id/imageButton"
                 android:scaleType="centerCrop"
+                android:background="@null"
+                android:layout_margin="5dp"
                 android:layout_weight="25" />
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/exercise"
+                android:src="@drawable/logo2"
                 android:id="@+id/imageButtonExercise"
                 android:scaleType="centerCrop"
+                android:background="@null"
+                android:layout_margin="5dp"
                 android:layout_weight="25" />
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/sleep_hygiene"
+                android:src="@drawable/logo3"
                 android:id="@+id/imageButton3"
+                android:background="@null"
+                android:layout_margin="5dp"
                 android:scaleType="centerCrop"
                 android:layout_weight="25" />
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/mindfulness_reflection"
+                android:src="@drawable/logo4"
                 android:scaleType="centerCrop"
+                android:background="@null"
+                android:layout_margin="5dp"
                 android:id="@+id/imageButton4"
+                android:layout_weight="25" />
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/logo5"
+                android:scaleType="centerCrop"
+                android:background="@null"
+                android:layout_margin="5dp"
+                android:id="@+id/imageButton5"
                 android:layout_weight="25" />
         </LinearLayout>
         <LinearLayout
@@ -152,12 +181,108 @@
                 android:gravity="center"
                 android:text="mindfulness/reflection"
                 android:layout_weight="25" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/mindfulness_reflection"
+                android:gravity="center"
+                android:text=" healthy diet"
+                android:layout_weight="25" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="33"></LinearLayout>
+            android:layout_weight="30">
 
+                <ImageButton
+                    android:layout_width="0dp"
+
+                    android:layout_height="match_parent"
+
+                    android:src="@drawable/logo6"
+                    android:background="@null"
+                    android:layout_margin="5dp"
+                    android:scaleType="centerCrop"
+                    android:layout_weight="25" />
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/logo7"
+                    android:background="@null"
+                    android:layout_margin="5dp"
+                    android:scaleType="centerCrop"
+                    android:layout_weight="25" />
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/logo8"
+                    android:background="@null"
+                    android:layout_margin="5dp"
+                    android:scaleType="centerCrop"
+                    android:layout_weight="25" />
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/logo9"
+                    android:scaleType="centerCrop"
+                    android:background="@null"
+                    android:layout_margin="5dp"
+                    android:layout_weight="25" />
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/logo10"
+                    android:scaleType="centerCrop"
+                    android:background="@null"
+                    android:layout_margin="5dp"
+                    android:layout_weight="25" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20">
+            <TextView
+                android:layout_width="0dp"
+
+                android:layout_height="match_parent"
+                android:text="social development"
+                android:src="@drawable/embodied_practices"
+                android:gravity="center"
+                android:layout_weight="25" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/exercise"
+                android:text="personal development"
+                android:gravity="center"
+                android:layout_weight="25" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/sleep_hygiene"
+                android:text="positive thinking"
+                android:gravity="center"
+                android:layout_weight="25" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/mindfulness_reflection"
+                android:gravity="center"
+                android:text="productivity"
+                android:layout_weight="25" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/mindfulness_reflection"
+                android:gravity="center"
+                android:text="healthy finances"
+                android:layout_weight="25" />
+        </LinearLayout>
 
 
     </LinearLayout>
