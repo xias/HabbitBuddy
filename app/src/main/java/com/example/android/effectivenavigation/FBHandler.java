@@ -1454,7 +1454,7 @@ private static int getIntFromDay(String day){
 
                                                     String task = intensity+" "+type;
                                                     Log.v("diff", task+temp[difference]+Arrays.toString(temp));
-                                                    twoTasks.setText("No Tasks Today");
+                                                    twoTasks.setText("No Activity Today");
                                                     if (temp[difference].equals("1")) {
 
                                                         twoTasks.setText(task);
@@ -1463,7 +1463,7 @@ private static int getIntFromDay(String day){
 
                                                     }
                                                 }else {
-                                                    twoTasks.setText("No Tasks Today");
+                                                    twoTasks.setText("No Activity Today");
                                                 }
 
 
@@ -1577,7 +1577,7 @@ private static int getIntFromDay(String day){
 
                                                                 String task = intensity+" "+type;
                                                                 Log.v("diff", task+temp[difference]+Arrays.toString(temp));
-                                                                buddyTasks.setText("No Tasks Today");
+                                                                buddyTasks.setText(buddyName+" Has No Activity Today");
                                                                 if (temp[difference].equals("1")) {
 
                                                                     buddyTasks.setText(buddyName+": "+task);
@@ -1586,7 +1586,7 @@ private static int getIntFromDay(String day){
 
                                                                 }
                                                             }else {
-                                                                buddyTasks.setText("No Tasks Today");
+                                                                buddyTasks.setText("Buddy Not In Habit Cycle");
                                                             }
 
 
