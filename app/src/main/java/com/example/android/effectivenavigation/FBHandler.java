@@ -7,12 +7,15 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -280,21 +283,61 @@ public class FBHandler {
     }
 
     public static void GetFriendList (final Activity activity, final ListView listView, String n) {
+
+        final String userName = n;
         Firebase userRef = mRootRef.child("pool");
+        final String[] t = new String[2];
+        Firebase budRef = mUsersRef.child(userName).child("buddy");
+        budRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener(){
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String q = dataSnapshot.getValue(String.class);
+
+                if (q==null||q==""){
+                    return;
+                }else {
+                    //add buddy to friendlist
+                    t[0] = q;
+                    Log.v("get friend list debug",q);
+
+                }
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+
         userRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
             @Override
             public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
 //                final ArrayList<String> list = new ArrayList<String>();
 
-                String s = dataSnapshot.getValue(String.class);
+                final String s = dataSnapshot.getValue(String.class);
                 if (s==null||s==""){
 //                    String[] a = {"no Buddies"};
 //                    ProfileAdapter adapter=new ProfileAdapter(activity,a,a);
 //                    listView.setAdapter(adapter);
                 }else {
-                    final String[] temp = s.split("\\|");
-                    final String[] data = new String[temp.length];
-                    for (int i = 0; i < temp.length; i++) {
+
+
+
+//                    Log.v("get friend list debug",t[0]);
+
+                    if(t[0]==null) {
+                        t[1] = s;
+                    }else{
+                        t[1] = t[0]+"|"+s;
+                    }
+                    Log.v("debug friendlist",t[1]);
+                    final String[] temp = t[1].split("\\|");
+                    final int tempL = temp.length;
+
+
+                    final String[] data = new String[tempL];
+                    for (int i = 0; i < tempL; i++) {
                         Firebase buddyRef = mUsersRef.child(temp[i]).child("profileImage");
                         final int finalI = i;
                         buddyRef.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener() {
@@ -302,9 +345,21 @@ public class FBHandler {
                             public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
                                 data[finalI]=dataSnapshot.getValue(String.class);
 //                                list.add(dataSnapshot.getValue(String.class));
-                                if (finalI==temp.length-1) {
+                                if (finalI==tempL-1) {
                                     FriendListAdapter adapter=new FriendListAdapter(activity,temp,data);
                                     listView.setAdapter(adapter);
+
+
+
+                                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            String number = "16476754775";  // The number on which you want to send SMS
+                                            activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null)));
+                                        }
+                                    });
+
+
 
                                 }
 
@@ -1454,7 +1509,7 @@ private static int getIntFromDay(String day){
 
                                                     String task = intensity+" "+type;
                                                     Log.v("diff", task+temp[difference]+Arrays.toString(temp));
-                                                    twoTasks.setText("No Tasks Today");
+                                                    twoTasks.setText("No Activity Today");
                                                     if (temp[difference].equals("1")) {
 
                                                         twoTasks.setText(task);
@@ -1463,7 +1518,7 @@ private static int getIntFromDay(String day){
 
                                                     }
                                                 }else {
-                                                    twoTasks.setText("No Tasks Today");
+                                                    twoTasks.setText("No Activity Today");
                                                 }
 
 
@@ -1577,7 +1632,7 @@ private static int getIntFromDay(String day){
 
                                                                 String task = intensity+" "+type;
                                                                 Log.v("diff", task+temp[difference]+Arrays.toString(temp));
-                                                                buddyTasks.setText("No Tasks Today");
+                                                                buddyTasks.setText("No Activity Today");
                                                                 if (temp[difference].equals("1")) {
 
                                                                     buddyTasks.setText(buddyName+": "+task);
@@ -1586,7 +1641,7 @@ private static int getIntFromDay(String day){
 
                                                                 }
                                                             }else {
-                                                                buddyTasks.setText("No Tasks Today");
+                                                                buddyTasks.setText("No Activity Today");
                                                             }
 
 

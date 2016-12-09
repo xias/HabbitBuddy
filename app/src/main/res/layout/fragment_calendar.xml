@@ -49,12 +49,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="20">
-        <Button
+        android:gravity="center_vertical|center"
+
+        android:layout_weight="20"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="Remember to increase your frequency and/or duration of your healthy habit once you are able to easily and consistently meet the original step or goal. "
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/startButton"
-            android:text="Start A New Habit!"
-            android:layout_margin="30dp"/>
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner"
+            android:gravity="left|center"
+            android:id="@+id/reminderList"
+            android:layout_margin="5dp" />
     </LinearLayout>
 </LinearLayout>

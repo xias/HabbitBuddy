@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/enterList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
+    android:background="#E5EAEE"
     android:paddingBottom="10dp"
     android:orientation="vertical"
     android:minHeight="250dp">
@@ -22,7 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_alignParentBottom = "true"
-
             android:gravity="bottom">
 
             <Button
@@ -30,7 +29,9 @@
                 android:layout_weight="20"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:id="@+id/postButton"
+                android:background="@drawable/lightbuttons"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp" />
 
@@ -38,6 +39,8 @@
                 android:text="Add Picture"
                 android:layout_weight="20"
                 android:layout_width="0dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/lightbuttons"
                 android:layout_height="wrap_content"
                 android:id="@+id/addPicButton"
                 android:layout_marginLeft="5dp"

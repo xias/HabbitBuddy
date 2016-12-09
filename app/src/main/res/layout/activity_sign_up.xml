@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.android.effectivenavigation.SignUpActivity"
-    android:background="#C1E1A6">
+    android:background="#E5EAEE">
 
     <!-- Login progress -->
     <ProgressBar
@@ -202,6 +202,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Sign Up"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/mybuttons"
                 android:textStyle="bold" />
 
             <!--style="?android:textAppearanceSmall"-->

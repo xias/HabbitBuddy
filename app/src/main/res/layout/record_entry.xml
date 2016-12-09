@@ -46,17 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
                     android:background="@null"/>
-                <ProgressBar
-                    style="@android:style/Widget.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="10"
-                    android:progress="20"
 
-                    android:id="@+id/wallProgress"
-                    android:progressTint="@android:color/holo_blue_dark"
-                    android:progressBackgroundTint="@android:color/darker_gray"
-                     />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="10dp"

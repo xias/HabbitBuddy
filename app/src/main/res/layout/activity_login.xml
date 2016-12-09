@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#C1E1A6"
+    android:background="#E5EAEE"
 
 
     tools:context="com.example.android.effectivenavigation.LoginActivity">
@@ -96,7 +96,7 @@
                 android:textSize="18sp"
             android:textStyle="normal|bold|italic"
             android:alpha="8"
-            android:textColor="#118C4E"/>
+            android:textColor="#0087CC"/>
 
             <Button
                 android:id="@+id/email_sign_up_button"

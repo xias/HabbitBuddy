@@ -1,7 +1,9 @@
 package com.example.android.effectivenavigation.summary;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -200,21 +202,41 @@ public class BuddyCenterFragment extends Fragment {
                     buddyView.setVisibility(View.VISIBLE);
                     textView.setText("Buddy :");
                     FBHandler.GetBuddiesImages(getActivity(),v,name,buddyView);
-                    matchB.setText("un-buddy");
+                    matchB.setText("Un-Buddy");
                     matchB.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
-                            final Firebase deleteFirebase = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+info+"/buddy");
-                            deleteFirebase.setValue(null);
-                        requestFirebase.setValue(null);
-                        Log.v("unbu","unbu");
-//                matchB.setVisibility(View.GONE);
-//                matchB.setVisibility(View.VISIBLE);
 
-//                        FBHandler.addInPool(info);
-                            FBHandler.addInPoolTwo(name,info);
 
-//                            Log.v("View", String.valueOf(v));
+                            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which){
+                                        case DialogInterface.BUTTON_POSITIVE:
+
+                                            final Firebase deleteFirebase = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+info+"/buddy");
+                                            deleteFirebase.setValue(null);
+                                            requestFirebase.setValue(null);
+                                            FBHandler.addInPoolTwo(name,info);
+
+                                            break;
+
+                                        case DialogInterface.BUTTON_NEGATIVE:
+                                            //No button clicked
+                                            break;
+                                    }
+                                }
+                            };
+
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                            builder.setMessage("You are about to un-match your current Buddy. Are you sure? ").setPositiveButton("Yes", dialogClickListener)
+                                    .setNegativeButton("No", dialogClickListener).show();
+
+
+
+
+
                         }
                     });
                 }
@@ -481,36 +503,36 @@ public class BuddyCenterFragment extends Fragment {
 
 
 
-    public class WallAdapter extends ArrayAdapter<WallEntryItem> {
-        public WallAdapter() {
-
-            super(getActivity(), R.layout.record_entry, WallEntryItem.wallEntryItemList);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            View row = convertView;
-            if (row == null) {
-                LayoutInflater layoutInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                row = layoutInflater.inflate(R.layout.record_entry, parent, false);
-            }
-
-            WallEntryItem wallEntryItem = WallEntryItem.wallEntryItemList.get(position);
-            ImageView im = (ImageView) row.findViewById(R.id.wallPostImage);
-            TextView name = (TextView) row.findViewById(R.id.wallName);
-            TextView mes = (TextView) row.findViewById(R.id.wallMes);
-            ProgressBar p = (ProgressBar) row.findViewById(R.id.wallProgress);
-
-//            im.setImageBitmap(wallEntryItem.getPic());
-            name.setText(wallEntryItem.getTitle());
-            mes.setText(wallEntryItem.getContent());
-            p.setProgress(wallEntryItem.getProgress());
-
-            return row;
+//    public class WallAdapter extends ArrayAdapter<WallEntryItem> {
+//        public WallAdapter() {
+//
+//            super(getActivity(), R.layout.record_entry, WallEntryItem.wallEntryItemList);
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//
+//            View row = convertView;
+//            if (row == null) {
+//                LayoutInflater layoutInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                row = layoutInflater.inflate(R.layout.record_entry, parent, false);
 //            }
-        }
-    }
+//
+//            WallEntryItem wallEntryItem = WallEntryItem.wallEntryItemList.get(position);
+//            ImageView im = (ImageView) row.findViewById(R.id.wallPostImage);
+//            TextView name = (TextView) row.findViewById(R.id.wallName);
+//            TextView mes = (TextView) row.findViewById(R.id.wallMes);
+//            ProgressBar p = (ProgressBar) row.findViewById(R.id.wallProgress);
+//
+////            im.setImageBitmap(wallEntryItem.getPic());
+//            name.setText(wallEntryItem.getTitle());
+//            mes.setText(wallEntryItem.getContent());
+//            p.setProgress(wallEntryItem.getProgress());
+//
+//            return row;
+////            }
+//        }
+//    }
 
 
 

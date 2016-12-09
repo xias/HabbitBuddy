@@ -178,7 +178,7 @@ public class DiscoverFragment extends Fragment {
                     ImageView im = (ImageView) view.findViewById(R.id.wallPostImage);
                     TextView name = (TextView) view.findViewById(R.id.wallName);
                     TextView mes = (TextView) view.findViewById(R.id.wallMes);
-                    ProgressBar p = (ProgressBar) view.findViewById(R.id.wallProgress);
+//                    ProgressBar p = (ProgressBar) view.findViewById(R.id.wallProgress);
 
                     String bitmapstring = wallEntryItem.getPic();
                     try {
@@ -194,7 +194,7 @@ public class DiscoverFragment extends Fragment {
 
                     name.setText(wallEntryItem.getTitle());
                     mes.setText(wallEntryItem.getContent());
-                    p.setProgress(wallEntryItem.getProgress());
+//                    p.setProgress(wallEntryItem.getProgress());
                 }
             };
 
@@ -204,7 +204,7 @@ public class DiscoverFragment extends Fragment {
         wallBuddy = (ListView) v.findViewById(R.id.wallListBuddy);
         textViewBuddy = (TextView) v.findViewById(R.id.buddyTitle);
         textViewUser = (TextView) v.findViewById(R.id.hiUser);
-        textViewUser.setText("Hi, "+name+"! Why not add your moment?");
+        textViewUser.setText("Hi, "+name+"! Why not add your snapshots?");
         Firebase findBuddyRef = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+name+"/buddy");
 
         findBuddyRef.addValueEventListener(new com.firebase.client.ValueEventListener() {
@@ -219,7 +219,7 @@ public class DiscoverFragment extends Fragment {
                 else {
                     wallBuddy.setVisibility(View.VISIBLE);
                     Log.v("buddy",BuddyName);
-                    textViewBuddy.setText("Moments of your buddy "+BuddyName+" :");
+                    textViewBuddy.setText("Snapshots of your buddy "+BuddyName+" :");
                     Firebase postRef2 = new Firebase("https://habitbuddy-9bca7.firebaseio.com/users/"+BuddyName+"/post");
 
 
@@ -229,7 +229,7 @@ public class DiscoverFragment extends Fragment {
                                 ImageView im = (ImageView) view.findViewById(R.id.wallPostImage);
                                 TextView name = (TextView) view.findViewById(R.id.wallName);
                                 TextView mes = (TextView) view.findViewById(R.id.wallMes);
-                                ProgressBar p = (ProgressBar) view.findViewById(R.id.wallProgress);
+//                                ProgressBar p = (ProgressBar) view.findViewById(R.id.wallProgress);
 
                                 String bitmapstring = wallEntryItem.getPic();
                                 try {
@@ -245,7 +245,7 @@ public class DiscoverFragment extends Fragment {
 
                                 name.setText(wallEntryItem.getTitle());
                                 mes.setText(wallEntryItem.getContent());
-                                p.setProgress(wallEntryItem.getProgress());
+//                                p.setProgress(wallEntryItem.getProgress());
                             }
                         };
 

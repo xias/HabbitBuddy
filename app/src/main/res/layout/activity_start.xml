@@ -49,7 +49,7 @@
         >
         <TextView
             android:layout_gravity="center"
-            android:text="Tips:"
+            android:text="Choose One:"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:id="@+id/textView_buddy"
@@ -67,11 +67,7 @@
             android:layout_height="0dp"
             android:layout_weight="80"
 
-            android:text="Choosing One:
-
-
-Pick one healthy habit to start. Choosing one helps you to focus, feel more successful and can, unwittingly, create other positive changes.
-"/>
+            android:text="Pick one healthy habit to start. Choosing one helps you to focus, feel more successful and can, unwittingly, create other positive changes. Once you have completed your forming cycle you can choose another habit."/>
     </LinearLayout>
 
     <LinearLayout

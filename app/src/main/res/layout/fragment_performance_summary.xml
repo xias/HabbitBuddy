@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.android.effectivenavigation.summary.PerformanceSummaryFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -34,26 +35,32 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/change_frequency_button"
+            android:background="@drawable/lightbuttons"
+
             android:layout_weight="33"
             android:layout_margin="10dp"
 
             />
 
         <Button
-            android:text="Add a new habit"
+            android:text="Add A New Habit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="33"
+            android:background="@drawable/lightbuttons"
+
             android:id="@+id/addnew_button"
             android:layout_margin="10dp"
 
 />
 
         <Button
-            android:text="Log out"
+            android:text="Log Out"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="33"
+            android:background="@drawable/lightbuttons"
+
             android:id="@+id/logout_button"
             android:layout_margin="10dp"
            />

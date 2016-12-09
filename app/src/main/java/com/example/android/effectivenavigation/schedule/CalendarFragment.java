@@ -72,17 +72,17 @@ public class CalendarFragment extends Fragment {
         * */
 
 
-        Button startHabit = (Button)mView.findViewById(R.id.startButton);
-        startHabit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),StartActivity.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putString("pos",name);
-                intent.putExtras(mBundle);
-                startActivity(intent);
-            }
-        });
+//        Button startHabit = (Button)mView.findViewById(R.id.startButton);
+//        startHabit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(),StartActivity.class);
+//                Bundle mBundle = new Bundle();
+//                mBundle.putString("pos",name);
+//                intent.putExtras(mBundle);
+//                startActivity(intent);
+//            }
+//        });
 //        Toast.makeText(getActivity(), String.valueOf(System.currentTimeMillis()), Toast.LENGTH_SHORT).show();
 
 
